@@ -85,3 +85,4 @@ export const AnimatedBackground: React.FC<AnimatedBackgroundProps> = ({ isDark }
     </div>
   );
 };
+

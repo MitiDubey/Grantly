@@ -23,22 +23,20 @@ export const useScrollAnimations = (rootRef: React.RefObject<HTMLDivElement | nu
         .from('.hero-subtitle', { y: 20, opacity: 0, duration: 0.5 }, '-=0.3')
         .from('.hero-ctas', { y: 20, opacity: 0, duration: 0.5 }, '-=0.3');
 
-      // 2. PINNED EXPANDING IMAGE SHOWCASE (Exact dozfx.com Behavior)
-      // The section is pinned while scrolling. As the user scrolls, the card expands to fill the screen.
-      // Once expansion is complete, it unpins and smoothly transitions into the next section.
+      // 2. PINNED EXPANDING IMAGE SHOWCASE (Exact Sequence: expands smoothly before unpinning)
       const expandTl = gsap.timeline({
         scrollTrigger: {
           trigger: '.showcase-section-wrapper',
           start: 'top top',
-          end: '+=1400',
+          end: '+=1500',
           pin: true,
-          scrub: 1,
+          scrub: 1.2,
           anticipatePin: 1,
         },
       });
 
       expandTl
-        // Scale and broaden width to full screen like dozfx car
+        // Phase 1 & 2: Scale and broaden width to full screen before next section
         .fromTo(
           '.showcase-container',
           {
@@ -54,21 +52,21 @@ export const useScrollAnimations = (rootRef: React.RefObject<HTMLDivElement | nu
             height: '82vh',
             scale: 1,
             borderRadius: '16px',
-            duration: 1.5,
+            duration: 1.6,
             ease: 'power2.inOut',
           }
         )
-        // Subtle image zoom/parallax
+        // Subtle image parallax
         .fromTo(
           '.showcase-image',
           {
             scale: 1.15,
-            y: 30,
+            y: 35,
           },
           {
             scale: 1,
             y: 0,
-            duration: 1.5,
+            duration: 1.6,
             ease: 'power2.inOut',
           },
           0
@@ -77,7 +75,7 @@ export const useScrollAnimations = (rootRef: React.RefObject<HTMLDivElement | nu
         .fromTo(
           '.showcase-overlay-content',
           {
-            opacity: 0.7,
+            opacity: 0.6,
             y: 20,
           },
           {
@@ -86,45 +84,158 @@ export const useScrollAnimations = (rootRef: React.RefObject<HTMLDivElement | nu
             duration: 0.8,
             ease: 'power1.out',
           },
-          0.4
+          0.5
         );
 
-      // 3. Feature Cards Animation (Appears right after unpinning)
-      gsap.fromTo(
-        '.feature-card',
-        {
-          y: 45,
-          opacity: 0.2,
-        },
-        {
-          scrollTrigger: {
-            trigger: '.feature-cards-wrapper',
-            start: 'top 85%',
-            toggleActions: 'play none none none',
-          },
-          y: 0,
-          opacity: 1,
-          duration: 0.7,
-          stagger: 0.15,
-          ease: 'power2.out',
-        }
-      );
+      // 3. CONTINUOUS SCROLL CHOREOGRAPHY FOR FEATURES SECTION (Phases 3 to 7)
+      const isMobile = window.innerWidth < 768;
 
-      // 4. Statistics Banner Animation
+      if (!isMobile) {
+        // Desktop 3D Pop-Out Choreography
+        const featuresTl = gsap.timeline({
+          scrollTrigger: {
+            trigger: '.features-section',
+            start: 'top 75%',
+            toggleActions: 'play none none reverse',
+          },
+        });
+
+        // Phase 3 & 4: Heading "Designed for Clarity and Success" & Description reveal
+        featuresTl
+          .fromTo(
+            '.features-header-block',
+            { y: 50, opacity: 0 },
+            { y: 0, opacity: 1, duration: 0.8, ease: 'power3.out' }
+          )
+          // Phase 5, 6, 7: 3D Pop-out cards emerging with translateZ and scale
+          .fromTo(
+            '.feature-card-0',
+            {
+              opacity: 0,
+              y: 60,
+              scale: 0.88,
+              z: -120,
+              rotateX: 10,
+            },
+            {
+              opacity: 1,
+              y: 0,
+              scale: 1,
+              z: 0,
+              rotateX: 0,
+              duration: 0.75,
+              ease: 'back.out(1.5)',
+            },
+            '-=0.3'
+          )
+          .fromTo(
+            '.feature-card-1',
+            {
+              opacity: 0,
+              y: 60,
+              scale: 0.88,
+              z: -120,
+              rotateX: 10,
+            },
+            {
+              opacity: 1,
+              y: 0,
+              scale: 1,
+              z: 0,
+              rotateX: 0,
+              duration: 0.75,
+              ease: 'back.out(1.5)',
+            },
+            '-=0.5'
+          )
+          .fromTo(
+            '.feature-card-2',
+            {
+              opacity: 0,
+              y: 60,
+              scale: 0.88,
+              z: -120,
+              rotateX: 10,
+            },
+            {
+              opacity: 1,
+              y: 0,
+              scale: 1,
+              z: 0,
+              rotateX: 0,
+              duration: 0.75,
+              ease: 'back.out(1.5)',
+            },
+            '-=0.5'
+          );
+      } else {
+        // Simplified mobile staggered fade up
+        gsap.fromTo(
+          '.features-header-block',
+          { y: 30, opacity: 0 },
+          {
+            scrollTrigger: {
+              trigger: '.features-section',
+              start: 'top 85%',
+            },
+            y: 0,
+            opacity: 1,
+            duration: 0.6,
+          }
+        );
+
+        gsap.fromTo(
+          '.feature-card',
+          { y: 40, opacity: 0 },
+          {
+            scrollTrigger: {
+              trigger: '.features-cards-grid',
+              start: 'top 85%',
+            },
+            y: 0,
+            opacity: 1,
+            duration: 0.6,
+            stagger: 0.18,
+            ease: 'power2.out',
+          }
+        );
+      }
+
+      // 4. Statistics Banner Animation (Phase 8)
       gsap.fromTo(
         '.stats-container',
         {
-          y: 35,
-          opacity: 0.3,
+          y: 40,
+          opacity: 0.2,
         },
         {
           scrollTrigger: {
             trigger: '.stats-banner-wrapper',
             start: 'top 85%',
-            toggleActions: 'play none none none',
+            toggleActions: 'play none none reverse',
           },
           y: 0,
           opacity: 1,
+          duration: 0.7,
+          ease: 'power2.out',
+        }
+      );
+
+      // 5. Footer natural entry (Phase 9)
+      gsap.fromTo(
+        '.footer-section',
+        {
+          opacity: 0,
+          y: 20,
+        },
+        {
+          scrollTrigger: {
+            trigger: '.footer-section',
+            start: 'top 95%',
+            toggleActions: 'play none none reverse',
+          },
+          opacity: 1,
+          y: 0,
           duration: 0.6,
           ease: 'power2.out',
         }
