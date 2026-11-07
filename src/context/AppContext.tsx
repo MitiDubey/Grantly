@@ -72,10 +72,13 @@ const INITIAL_APPLICATIONS: ApplicationRecord[] = [
 const AppContext = createContext<AppContextType | undefined>(undefined);
 
 export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  // Theme state
+  // Theme state initialized from localStorage or system preference
   const [isDark, setIsDark] = useState<boolean>(() => {
     const saved = localStorage.getItem('grantly_theme');
     if (saved) return saved === 'dark';
+    if (typeof window !== 'undefined' && window.matchMedia) {
+      return window.matchMedia('(prefers-color-scheme: dark)').matches;
+    }
     return false;
   });
 

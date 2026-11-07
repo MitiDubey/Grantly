@@ -12,40 +12,37 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
   onOpenAuth,
 }) => {
   return (
-    <div className="hero-section relative w-full flex flex-col items-center justify-center text-center px-6 pt-28 pb-10 max-w-5xl mx-auto z-10">
+    <div className="hero-section relative w-full flex flex-col items-center justify-center text-center px-4 sm:px-6 pt-24 sm:pt-28 pb-8 sm:pb-10 max-w-5xl mx-auto z-10 overflow-hidden">
       
       {/* Surrounding Hero Content */}
-      <div className="hero-text-content space-y-4">
+      <div className="hero-text-content space-y-3 sm:space-y-4">
         {/* Hero Badge with Logo Gold Star Accent */}
-        <div className="hero-badge inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-amber-300/40 dark:border-amber-400/40 bg-amber-50/80 dark:bg-[#19263A]/90 text-[#101B2D] dark:text-white text-xs font-semibold uppercase tracking-wider mb-2 shadow-sm backdrop-blur-sm">
+        <div className="hero-badge inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-1 sm:py-1.5 rounded-full border border-amber-300/40 dark:border-amber-400/40 bg-amber-50/80 dark:bg-[#19263A]/90 text-[#101B2D] dark:text-white text-[11px] sm:text-xs font-semibold uppercase tracking-wider mb-2 shadow-xs backdrop-blur-sm">
           <Sparkles className="w-3.5 h-3.5 text-[#F6A81C] animate-pulse" />
           <span className="text-[#3985FF] font-bold">GRANTLY</span>
           <span className="text-slate-400">•</span>
           <span className="text-slate-700 dark:text-slate-200">Next-Gen Scholarship Intelligence</span>
         </div>
 
-        {/* Headline:
-            In Light Mode: Electric Blue gradient
-            In Dark Mode: Highly visible Golden-Yellow text with warm glowing shadow
-        */}
-        <h1 className="text-4xl sm:text-6xl md:text-7xl font-extrabold font-display tracking-tight text-[#101B2D] dark:text-white leading-[1.08] max-w-4xl mx-auto">
+        {/* Headline with fluid clamp() sizing */}
+        <h1 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold font-display tracking-tight text-[#101B2D] dark:text-white leading-[1.1] max-w-4xl mx-auto" style={{ fontSize: 'clamp(2rem, 6vw, 4.5rem)' }}>
           <span className="hero-title-line block">Your Future,</span>
           <span 
-            className="hero-title-line block font-black text-[#3985FF] dark:text-[#F4B740] drop-shadow-sm dark:drop-shadow-[0_4px_24px_rgba(244,183,64,0.45)] transition-colors duration-200"
+            className="hero-title-line block font-black text-[#3985FF] dark:text-[#F4B740] drop-shadow-sm dark:drop-shadow-[0_4px_24px_rgba(244,183,64,0.45)] transition-colors duration-150"
           >
             Funded.
           </span>
         </h1>
 
         {/* Supporting Paragraph */}
-        <p className="hero-subtitle text-base sm:text-lg md:text-xl text-[#667085] dark:text-[#A8B4C7] max-w-2xl mx-auto font-normal leading-relaxed pt-2">
+        <p className="hero-subtitle text-sm sm:text-base md:text-lg text-[#667085] dark:text-[#A8B4C7] max-w-2xl mx-auto font-normal leading-relaxed pt-1 sm:pt-2 px-2" style={{ fontSize: 'clamp(0.875rem, 2vw, 1.125rem)' }}>
           Discover curated grants, calculate transparent rule-based eligibility scores, and track all your applications seamlessly in one elegant workspace.
         </p>
       </div>
 
-      {/* SECTION 1 LOGO PORTAL: PROPORTIONATE EMBEDDED CIRCULAR LOGO FIT */}
-      <div className="my-8 flex flex-col items-center justify-center">
-        <p className="text-xs font-semibold uppercase tracking-widest text-[#3985FF] dark:text-[#F6A81C] mb-4 flex items-center gap-1.5 select-none animate-pulse">
+      {/* SECTION 1 LOGO PORTAL: RESPONSIVE EMBEDDED CIRCULAR LOGO FIT */}
+      <div className="my-6 sm:my-8 flex flex-col items-center justify-center">
+        <p className="text-[10px] sm:text-xs font-semibold uppercase tracking-widest text-[#3985FF] dark:text-[#F6A81C] mb-3 sm:mb-4 flex items-center gap-1.5 select-none animate-pulse">
           <span className="text-[#F6A81C]">★</span>
           <span>CLICK THE LOGO PORTAL TO ENTER</span>
           <span className="text-[#F6A81C]">★</span>
@@ -53,7 +50,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
 
         <div 
           onClick={onLogoClick}
-          className="logo-portal-card relative group cursor-pointer w-64 h-64 sm:w-80 sm:h-80 rounded-full bg-white dark:bg-[#19263A] p-2.5 shadow-2xl border-4 border-[#3985FF] dark:border-[#F6A81C] flex items-center justify-center overflow-hidden transition-all duration-300 hover:scale-105 active:scale-95"
+          className="logo-portal-card relative group cursor-pointer w-48 h-48 sm:w-64 sm:h-64 md:w-80 md:h-80 rounded-full bg-white dark:bg-[#19263A] p-2 sm:p-2.5 shadow-2xl border-4 border-[#3985FF] dark:border-[#F6A81C] flex items-center justify-center overflow-hidden transition-all duration-300 hover:scale-105 active:scale-95"
           style={{ willChange: 'transform' }}
           title="Click to enter GRANTLY"
         >
@@ -64,7 +61,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
           <div className="absolute -inset-4 rounded-full bg-gradient-to-tr from-[#3985FF]/30 via-[#F6A81C]/25 to-transparent blur-xl pointer-events-none" />
 
           {/* Inner Circular Logo Container */}
-          <div className="w-full h-full rounded-full overflow-hidden bg-white flex items-center justify-center p-3 z-10 shadow-inner">
+          <div className="w-full h-full rounded-full overflow-hidden bg-white flex items-center justify-center p-2.5 sm:p-3 z-10 shadow-inner">
             <img
               src={grantlyLogo}
               alt="GRANTLY Official Portal Emblem"
@@ -78,10 +75,10 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
       </div>
 
       {/* Hero CTA Buttons */}
-      <div className="hero-ctas flex flex-col sm:flex-row items-center justify-center gap-4 max-w-md mx-auto pt-2">
+      <div className="hero-ctas flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 w-full max-w-md mx-auto pt-1 sm:pt-2 px-4">
         <button
           onClick={() => onOpenAuth('signup')}
-          className="w-full sm:w-auto px-8 py-3.5 rounded-xl bg-gradient-to-r from-[#3985FF] to-[#2575f0] hover:to-[#1e6ae4] active:scale-95 text-white font-semibold text-sm shadow-xl shadow-blue-500/25 flex items-center justify-center gap-2 transition-all cursor-pointer"
+          className="w-full sm:w-auto px-7 py-3 rounded-xl bg-gradient-to-r from-[#3985FF] to-[#2575f0] hover:to-[#1e6ae4] active:scale-95 text-white font-semibold text-sm shadow-xl shadow-blue-500/25 flex items-center justify-center gap-2 transition-all cursor-pointer"
         >
           <span>Get Started</span>
           <ChevronRight className="w-4 h-4" />

@@ -46,10 +46,10 @@ export const StatsBanner: React.FC = () => {
   ];
 
   return (
-    <section className="stats-section relative z-20 max-w-6xl mx-auto px-6 py-14">
-      {/* 4 Separate Individual Cards in one horizontal row on desktop with 3D Pop-Out Perspective */}
+    <section className="stats-section relative z-20 max-w-6xl mx-auto px-4 sm:px-6 py-10 sm:py-14">
+      {/* 4 Separate Individual Cards in one horizontal row on desktop, 2-col on tablet/phone with 3D Pop-Out Perspective */}
       <div 
-        className="stats-cards-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"
+        className="stats-cards-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6"
         style={{ perspective: '1200px', transformStyle: 'preserve-3d' }}
       >
         {stats.map((item, idx) => {
@@ -57,16 +57,16 @@ export const StatsBanner: React.FC = () => {
           return (
             <div
               key={item.id}
-              className={`stat-card stat-card-${idx} group relative p-7 rounded-[22px] bg-white dark:bg-[#19263A] border-2 border-[#E4E9F1] dark:border-[#304058] shadow-[0_8px_24px_rgba(16,27,45,0.06)] dark:shadow-[0_8px_24px_rgba(0,0,0,0.3)] transition-all duration-300 flex flex-col justify-between cursor-default hover:-translate-y-2 ${item.borderHover} ${item.glowHover}`}
+              className={`stat-card stat-card-${idx} group relative p-5 sm:p-7 rounded-[22px] bg-white dark:bg-[#19263A] border border-[#E4E9F1] dark:border-[#304058] shadow-[0_8px_24px_rgba(16,27,45,0.06)] dark:shadow-[0_8px_24px_rgba(0,0,0,0.3)] transition-all duration-300 flex flex-col justify-between cursor-default hover:-translate-y-1.5 ${item.borderHover} ${item.glowHover}`}
               style={{
                 transformStyle: 'preserve-3d',
                 willChange: 'transform, opacity, box-shadow',
               }}
             >
               {/* Top Accent Icon & Category */}
-              <div className="flex items-center justify-between mb-5">
-                <div className={`w-12 h-12 rounded-2xl ${item.iconBg} flex items-center justify-center shadow-sm group-hover:scale-110 transition-transform duration-300`}>
-                  <Icon className="w-6 h-6" />
+              <div className="flex items-center justify-between mb-4 sm:mb-5">
+                <div className={`w-10 h-10 sm:w-12 sm:h-12 rounded-2xl ${item.iconBg} flex items-center justify-center shadow-xs group-hover:scale-105 transition-transform duration-300`}>
+                  <Icon className="w-5 h-5 sm:w-6 sm:h-6" />
                 </div>
                 <div 
                   className="w-2.5 h-2.5 rounded-full"
@@ -77,18 +77,18 @@ export const StatsBanner: React.FC = () => {
               {/* Large Statistic Number */}
               <div>
                 <p 
-                  className="stat-value text-3xl sm:text-4xl font-extrabold font-display tracking-tight mb-2 select-none"
+                  className="stat-value text-2xl sm:text-3xl lg:text-4xl font-extrabold font-display tracking-tight mb-1.5 sm:mb-2 select-none"
                   style={{ color: item.accentColor }}
                 >
                   {item.value}
                 </p>
-                <p className="text-[11px] font-bold uppercase tracking-wider text-[#667085] dark:text-[#A8B4C7] leading-snug">
+                <p className="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-[#667085] dark:text-[#A8B4C7] leading-snug">
                   {item.label}
                 </p>
               </div>
 
               {/* Subtle Bottom Accent Indicator */}
-              <div className="mt-5 pt-3 border-t border-slate-100 dark:border-[#223149] flex items-center justify-between text-[10px] text-slate-400 font-medium">
+              <div className="mt-4 sm:mt-5 pt-3 border-t border-slate-100 dark:border-[#223149] flex items-center justify-between text-[10px] text-slate-400 font-medium">
                 <span>Verified Metric</span>
                 <span className="font-semibold" style={{ color: item.accentColor }}>Cycle 2026</span>
               </div>

@@ -14,35 +14,35 @@ export const Footer: React.FC<FooterProps> = ({ onNavigateTab, onOpenAuth }) => 
       {/* Decorative subtle ambient pattern */}
       <div className="absolute inset-0 opacity-[0.02] dark:opacity-[0.04] bg-[radial-gradient(#3985FF_1px,transparent_1px)] [background-size:20px_20px] pointer-events-none" />
 
-      <div className="max-w-7xl mx-auto px-6 pt-16 pb-12 relative z-10 space-y-12">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 pt-12 sm:pt-16 pb-8 sm:pb-12 relative z-10 space-y-10 sm:space-y-12">
         
         {/* =========================================================
             TOP & MIDDLE SECTION – Multi-Column Brand & Navigation
         ========================================================== */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 text-left">
+        <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-5 gap-8 sm:gap-10 text-left">
           
           {/* Brand Column (Spans 2 cols on lg) */}
-          <div className="lg:col-span-2 space-y-4">
+          <div className="col-span-2 lg:col-span-2 space-y-4">
             <div className="flex items-center gap-3">
-              <div className="w-11 h-11 rounded-full bg-white p-1 border-2 border-[#3985FF]/50 shadow-sm flex items-center justify-center overflow-hidden">
+              <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-white p-1 border-2 border-[#3985FF]/50 shadow-sm flex items-center justify-center overflow-hidden flex-shrink-0">
                 <img src={grantlyLogo} alt="GRANTLY Logo" className="w-full h-full object-contain" />
               </div>
               <div>
-                <span className="font-extrabold text-2xl tracking-tight text-[#101B2D] dark:text-white font-display">
+                <span className="font-extrabold text-xl sm:text-2xl tracking-tight text-[#101B2D] dark:text-white font-display block leading-tight">
                   GRANTLY
                 </span>
-                <span className="block text-[10px] uppercase font-bold tracking-widest text-[#3985FF]">
+                <span className="block text-[9px] sm:text-[10px] uppercase font-bold tracking-widest text-[#3985FF] leading-tight">
                   Your Future, Funded.
                 </span>
               </div>
             </div>
 
-            <p className="text-sm text-[#667085] dark:text-[#A8B4C7] leading-relaxed max-w-sm font-normal">
+            <p className="text-xs sm:text-sm text-[#667085] dark:text-[#A8B4C7] leading-relaxed max-w-sm font-normal">
               Making scholarship discovery simpler, eligibility clearer, and educational opportunities more accessible for every student.
             </p>
 
-            <div className="flex items-center gap-2 pt-1 text-xs text-slate-400">
-              <Shield className="w-4 h-4 text-emerald-500" />
+            <div className="flex items-center gap-2 pt-1 text-[11px] sm:text-xs text-slate-400">
+              <Shield className="w-3.5 h-3.5 text-emerald-500 flex-shrink-0" />
               <span>Student Privacy & Data Protection Guaranteed</span>
             </div>
           </div>

@@ -23,75 +23,56 @@ export const useScrollAnimations = (rootRef: React.RefObject<HTMLDivElement | nu
         .from('.hero-subtitle', { y: 20, opacity: 0, duration: 0.5 }, '-=0.3')
         .from('.hero-ctas', { y: 20, opacity: 0, duration: 0.5 }, '-=0.3');
 
-      // 2. PINNED EXPANDING IMAGE SHOWCASE (Exact Sequence: expands smoothly before unpinning)
-      const expandTl = gsap.timeline({
-        scrollTrigger: {
-          trigger: '.showcase-section-wrapper',
-          start: 'top top',
-          end: '+=1500',
-          pin: true,
-          scrub: 1.2,
-          anticipatePin: 1,
-        },
-      });
+      // GSAP matchMedia to separate desktop cinematic scroll from lightweight mobile execution
+      const mm = gsap.matchMedia();
 
-      expandTl
-        // Phase 1 & 2: Scale and broaden width to full screen before next section
-        .fromTo(
-          '.showcase-container',
-          {
-            width: '80vw',
-            maxWidth: '960px',
-            height: '460px',
-            scale: 0.85,
-            borderRadius: '36px',
+      // DESKTOP: >= 768px (Cinematic pinned showcase, scrub, 3D pop-out)
+      mm.add("(min-width: 768px)", () => {
+        const expandTl = gsap.timeline({
+          scrollTrigger: {
+            trigger: '.showcase-section-wrapper',
+            start: 'top top',
+            end: '+=1400',
+            pin: true,
+            scrub: 1.2,
+            anticipatePin: 1,
           },
-          {
-            width: '98vw',
-            maxWidth: '1440px',
-            height: '82vh',
-            scale: 1,
-            borderRadius: '16px',
-            duration: 1.6,
-            ease: 'power2.inOut',
-          }
-        )
-        // Subtle image parallax
-        .fromTo(
-          '.showcase-image',
-          {
-            scale: 1.15,
-            y: 35,
-          },
-          {
-            scale: 1,
-            y: 0,
-            duration: 1.6,
-            ease: 'power2.inOut',
-          },
-          0
-        )
-        // Overlay and buttons fade up as it expands
-        .fromTo(
-          '.showcase-overlay-content',
-          {
-            opacity: 0.6,
-            y: 20,
-          },
-          {
-            opacity: 1,
-            y: 0,
-            duration: 0.8,
-            ease: 'power1.out',
-          },
-          0.5
-        );
+        });
 
-      // 3. CONTINUOUS SCROLL CHOREOGRAPHY FOR FEATURES SECTION (Phases 3 to 7)
-      const isMobile = window.innerWidth < 768;
+        expandTl
+          .fromTo(
+            '.showcase-container',
+            {
+              width: '80vw',
+              maxWidth: '960px',
+              height: '460px',
+              scale: 0.85,
+              borderRadius: '36px',
+            },
+            {
+              width: '98vw',
+              maxWidth: '1440px',
+              height: '82vh',
+              scale: 1,
+              borderRadius: '16px',
+              duration: 1.6,
+              ease: 'power2.inOut',
+            }
+          )
+          .fromTo(
+            '.showcase-image',
+            { scale: 1.15, y: 35 },
+            { scale: 1, y: 0, duration: 1.6, ease: 'power2.inOut' },
+            0
+          )
+          .fromTo(
+            '.showcase-overlay-content',
+            { opacity: 0.6, y: 20 },
+            { opacity: 1, y: 0, duration: 0.8, ease: 'power1.out' },
+            0.5
+          );
 
-      if (!isMobile) {
-        // Desktop 3D Pop-Out Choreography
+        // Desktop 3D Feature Cards
         const featuresTl = gsap.timeline({
           scrollTrigger: {
             trigger: '.features-section',
@@ -100,76 +81,32 @@ export const useScrollAnimations = (rootRef: React.RefObject<HTMLDivElement | nu
           },
         });
 
-        // Phase 3 & 4: Heading "Designed for Clarity and Success" & Description reveal
         featuresTl
           .fromTo(
             '.features-header-block',
             { y: 50, opacity: 0 },
             { y: 0, opacity: 1, duration: 0.8, ease: 'power3.out' }
           )
-          // Phase 5, 6, 7: 3D Pop-out cards emerging with translateZ and scale
           .fromTo(
             '.feature-card-0',
-            {
-              opacity: 0,
-              y: 60,
-              scale: 0.88,
-              z: -120,
-              rotateX: 10,
-            },
-            {
-              opacity: 1,
-              y: 0,
-              scale: 1,
-              z: 0,
-              rotateX: 0,
-              duration: 0.75,
-              ease: 'back.out(1.5)',
-            },
+            { opacity: 0, y: 60, scale: 0.88, z: -120, rotateX: 10 },
+            { opacity: 1, y: 0, scale: 1, z: 0, rotateX: 0, duration: 0.75, ease: 'back.out(1.5)' },
             '-=0.3'
           )
           .fromTo(
             '.feature-card-1',
-            {
-              opacity: 0,
-              y: 60,
-              scale: 0.88,
-              z: -120,
-              rotateX: 10,
-            },
-            {
-              opacity: 1,
-              y: 0,
-              scale: 1,
-              z: 0,
-              rotateX: 0,
-              duration: 0.75,
-              ease: 'back.out(1.5)',
-            },
+            { opacity: 0, y: 60, scale: 0.88, z: -120, rotateX: 10 },
+            { opacity: 1, y: 0, scale: 1, z: 0, rotateX: 0, duration: 0.75, ease: 'back.out(1.5)' },
             '-=0.5'
           )
           .fromTo(
             '.feature-card-2',
-            {
-              opacity: 0,
-              y: 60,
-              scale: 0.88,
-              z: -120,
-              rotateX: 10,
-            },
-            {
-              opacity: 1,
-              y: 0,
-              scale: 1,
-              z: 0,
-              rotateX: 0,
-              duration: 0.75,
-              ease: 'back.out(1.5)',
-            },
+            { opacity: 0, y: 60, scale: 0.88, z: -120, rotateX: 10 },
+            { opacity: 1, y: 0, scale: 1, z: 0, rotateX: 0, duration: 0.75, ease: 'back.out(1.5)' },
             '-=0.5'
           );
 
-        // 4. Statistics Banner 3D Pop-out (Matching Feature Cards)
+        // Desktop 3D Statistics Cards
         const statsTl = gsap.timeline({
           scrollTrigger: {
             trigger: '.stats-section',
@@ -203,7 +140,7 @@ export const useScrollAnimations = (rootRef: React.RefObject<HTMLDivElement | nu
             '-=0.45'
           );
 
-        // 5. Final CTA Banner Entrance
+        // Final CTA Banner Entrance
         gsap.fromTo(
           '.final-cta-section',
           { opacity: 0, y: 50, scale: 0.95 },
@@ -220,11 +157,29 @@ export const useScrollAnimations = (rootRef: React.RefObject<HTMLDivElement | nu
             ease: 'power3.out',
           }
         );
-      } else {
-        // Mobile Smooth Progressive Animations
+      });
+
+      // MOBILE: < 768px (Lightweight, unpinned, zero layout jump)
+      mm.add("(max-width: 767px)", () => {
+        // Mobile showcase card: natural smooth fade and scale without scroll pinning
+        gsap.fromTo(
+          '.showcase-container',
+          { opacity: 0.7, scale: 0.94 },
+          {
+            scrollTrigger: {
+              trigger: '.showcase-section-wrapper',
+              start: 'top 80%',
+            },
+            opacity: 1,
+            scale: 1,
+            duration: 0.6,
+            ease: 'power2.out',
+          }
+        );
+
         gsap.fromTo(
           '.features-header-block',
-          { y: 30, opacity: 0 },
+          { y: 25, opacity: 0 },
           {
             scrollTrigger: {
               trigger: '.features-section',
@@ -232,14 +187,14 @@ export const useScrollAnimations = (rootRef: React.RefObject<HTMLDivElement | nu
             },
             y: 0,
             opacity: 1,
-            duration: 0.6,
+            duration: 0.5,
             ease: 'power2.out',
           }
         );
 
         gsap.fromTo(
           '.feature-card',
-          { y: 40, opacity: 0, scale: 0.95 },
+          { y: 30, opacity: 0 },
           {
             scrollTrigger: {
               trigger: '.feature-cards-grid',
@@ -247,24 +202,6 @@ export const useScrollAnimations = (rootRef: React.RefObject<HTMLDivElement | nu
             },
             y: 0,
             opacity: 1,
-            scale: 1,
-            duration: 0.6,
-            stagger: 0.18,
-            ease: 'power2.out',
-          }
-        );
-
-        gsap.fromTo(
-          '.stat-card',
-          { y: 30, opacity: 0, scale: 0.95 },
-          {
-            scrollTrigger: {
-              trigger: '.stats-cards-grid',
-              start: 'top 85%',
-            },
-            y: 0,
-            opacity: 1,
-            scale: 1,
             duration: 0.5,
             stagger: 0.12,
             ease: 'power2.out',
@@ -272,8 +209,24 @@ export const useScrollAnimations = (rootRef: React.RefObject<HTMLDivElement | nu
         );
 
         gsap.fromTo(
+          '.stat-card',
+          { y: 25, opacity: 0 },
+          {
+            scrollTrigger: {
+              trigger: '.stats-cards-grid',
+              start: 'top 85%',
+            },
+            y: 0,
+            opacity: 1,
+            duration: 0.45,
+            stagger: 0.1,
+            ease: 'power2.out',
+          }
+        );
+
+        gsap.fromTo(
           '.final-cta-section',
-          { opacity: 0, y: 30 },
+          { opacity: 0, y: 25 },
           {
             scrollTrigger: {
               trigger: '.final-cta-section',
@@ -281,19 +234,16 @@ export const useScrollAnimations = (rootRef: React.RefObject<HTMLDivElement | nu
             },
             opacity: 1,
             y: 0,
-            duration: 0.6,
+            duration: 0.5,
             ease: 'power2.out',
           }
         );
-      }
+      });
 
-      // 6. Footer natural entry
+      // Footer natural entry for all viewports
       gsap.fromTo(
         '.footer-section',
-        {
-          opacity: 0,
-          y: 30,
-        },
+        { opacity: 0, y: 25 },
         {
           scrollTrigger: {
             trigger: '.footer-section',
@@ -302,7 +252,7 @@ export const useScrollAnimations = (rootRef: React.RefObject<HTMLDivElement | nu
           },
           opacity: 1,
           y: 0,
-          duration: 0.6,
+          duration: 0.5,
           ease: 'power2.out',
         }
       );
