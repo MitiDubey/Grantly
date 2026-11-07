@@ -21,19 +21,43 @@ export const Navbar: React.FC<NavbarProps> = ({
 }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
+  // Close mobile menu on Escape key
+  React.useEffect(() => {
+    if (!mobileMenuOpen) return;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setMobileMenuOpen(false);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [mobileMenuOpen]);
+
   return (
     <header className="navbar-container fixed top-0 left-0 right-0 z-40 bg-white/95 dark:bg-[#101B2D]/95 backdrop-blur-md border-b border-[#E4E9F1] dark:border-[#304058]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-3 sm:py-3.5 flex items-center justify-between">
         
         {/* Logo and Brand */}
         <div 
-          className="flex items-center gap-2.5 sm:gap-3 cursor-pointer select-none" 
+          role="button"
+          tabIndex={0}
+          aria-label="Scroll to top of page"
+          className="flex items-center gap-2.5 sm:gap-3 cursor-pointer select-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#3985FF] rounded-lg" 
           onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault();
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+          }}
         >
           <div className="w-9 h-9 sm:w-11 sm:h-11 rounded-full bg-white dark:bg-[#19263A] p-1.5 shadow-md shadow-blue-500/10 border-2 border-[#3985FF]/40 flex items-center justify-center overflow-hidden flex-shrink-0">
             <img 
               src={grantlyLogo} 
               alt="GRANTLY Logo" 
+              width={44}
+              height={44}
+              decoding="async"
               className="w-full h-full object-contain"
             />
           </div>
@@ -53,9 +77,9 @@ export const Navbar: React.FC<NavbarProps> = ({
           <button
             type="button"
             onClick={toggleTheme}
-            className="p-2 sm:p-2.5 rounded-xl border border-[#E4E9F1] dark:border-[#304058] bg-white dark:bg-[#19263A] text-slate-600 dark:text-slate-300 hover:text-[#3985FF] transition-all shadow-xs cursor-pointer"
+            className="p-2 sm:p-2.5 rounded-xl border border-[#E4E9F1] dark:border-[#304058] bg-white dark:bg-[#19263A] text-slate-600 dark:text-slate-300 hover:text-[#3985FF] transition-all shadow-xs cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#3985FF]"
             title={isDark ? 'Switch to Light Theme' : 'Switch to Dark Theme'}
-            aria-label="Toggle Theme"
+            aria-label={isDark ? 'Switch to light theme' : 'Switch to dark theme'}
           >
             {isDark ? (
               <Sun className="w-4 h-4 text-amber-400" />

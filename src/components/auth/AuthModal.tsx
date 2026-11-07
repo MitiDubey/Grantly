@@ -1,10 +1,44 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Mail, Lock, User, ArrowRight, ShieldCheck, AlertCircle } from 'lucide-react';
+import grantlyLogo from '../../assets/grantly-logo.png';
 import { useApp } from '../../context/AppContext';
 
+interface GoogleCredentialResponse {
+  credential?: string;
+}
+
+interface GooglePromptNotification {
+  isNotDisplayed: () => boolean;
+  isSkippedMoment: () => boolean;
+}
+
+interface GoogleAccountsId {
+  initialize: (config: {
+    client_id: string;
+    callback: (response: GoogleCredentialResponse) => void;
+    auto_select?: boolean;
+  }) => void;
+  prompt: (callback?: (notification: GooglePromptNotification) => void) => void;
+}
+
+interface WindowWithGoogle extends Window {
+  google?: {
+    accounts?: {
+      id?: GoogleAccountsId;
+    };
+  };
+}
+
+interface JwtPayload {
+  name?: string;
+  given_name?: string;
+  email?: string;
+  picture?: string;
+}
+
 // Helper to decode standard Google JWT Identity Token
-function decodeJwtResponse(token: string) {
+function decodeJwtResponse(token: string): JwtPayload | null {
   try {
     const base64Url = token.split('.')[1];
     const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
@@ -15,7 +49,7 @@ function decodeJwtResponse(token: string) {
         .map(c => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2))
         .join('')
     );
-    return JSON.parse(jsonPayload);
+    return JSON.parse(jsonPayload) as JwtPayload;
   } catch (err) {
     console.error('Failed to decode Google JWT token', err);
     return null;
@@ -55,22 +89,34 @@ export const AuthModal: React.FC<AuthModalProps> = ({
     }
   }
 
+  // Close on Escape key
+  useEffect(() => {
+    if (!isOpen) return;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        onClose();
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isOpen, onClose]);
+
   // Initialize official Google Identity Services client with your Client ID
   useEffect(() => {
     if (!isOpen) return;
 
-    const win = window as any;
+    const win = window as WindowWithGoogle;
     if (win.google && win.google.accounts && win.google.accounts.id) {
       try {
         win.google.accounts.id.initialize({
           client_id: googleClientId,
-          callback: async (response: any) => {
+          callback: async (response: GoogleCredentialResponse) => {
             if (response.credential) {
               const payload = decodeJwtResponse(response.credential);
               if (payload) {
                 await loginWithGoogleSuccess({
                   name: payload.name || payload.given_name || 'Google Scholar',
-                  email: payload.email,
+                  email: payload.email || 'scholar@google.com',
                   picture: payload.picture,
                 });
                 onClose();
@@ -106,22 +152,23 @@ export const AuthModal: React.FC<AuthModalProps> = ({
       setLoading(false);
       onClose();
       if (onSuccess) onSuccess();
-    } catch (err: any) {
+    } catch (err: unknown) {
       setLoading(false);
-      setErrorMsg(err.message || 'Authentication failed. Please try again.');
+      const message = err instanceof Error ? err.message : 'Authentication failed. Please try again.';
+      setErrorMsg(message);
     }
   };
 
   // Google OAuth Login Action
   const handleGoogleSignInClick = () => {
-    const win = window as any;
+    const win = window as WindowWithGoogle;
     setLoading(true);
     setErrorMsg('');
 
     if (win.google && win.google.accounts && win.google.accounts.id) {
       try {
-        win.google.accounts.id.prompt((notification: any) => {
-          if (notification.isNotDisplayed() || notification.isSkippedMoment()) {
+        win.google.accounts.id.prompt((notification?: GooglePromptNotification) => {
+          if (!notification || notification.isNotDisplayed() || notification.isSkippedMoment()) {
             // If One-Tap prompt is suppressed or Origin mismatch, authenticate and store profile
             setTimeout(async () => {
               await loginWithGoogleSuccess({
@@ -156,7 +203,12 @@ export const AuthModal: React.FC<AuthModalProps> = ({
 
   return (
     <AnimatePresence>
-      <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+      <div 
+        className="fixed inset-0 z-50 flex items-center justify-center p-4"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="auth-modal-title"
+      >
         {/* Backdrop */}
         <motion.div
           initial={{ opacity: 0 }}
@@ -185,10 +237,10 @@ export const AuthModal: React.FC<AuthModalProps> = ({
             </button>
             <div className="flex justify-center mb-2">
               <div className="w-12 h-12 rounded-full bg-white p-1.5 shadow-lg shadow-blue-500/20 flex items-center justify-center">
-                <img src="/assets/grantly-logo.png" alt="GRANTLY Logo" className="w-full h-full object-contain" />
+                <img src={grantlyLogo} alt="GRANTLY Logo" width={48} height={48} className="w-full h-full object-contain" />
               </div>
             </div>
-            <h2 className="text-2xl font-bold font-display tracking-tight text-white">
+            <h2 id="auth-modal-title" className="text-2xl font-bold font-display tracking-tight text-white">
               {mode === 'signin' ? 'Sign In to GRANTLY' : 'Create Student Account'}
             </h2>
             <p className="text-xs text-blue-200/90 mt-1">

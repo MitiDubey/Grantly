@@ -32,6 +32,9 @@ export const IntroOverlay: React.FC<IntroOverlayProps> = ({ show, onFinish }) =>
             <img 
               src={grantlyLogo} 
               alt="GRANTLY Official Emblem" 
+              width={160}
+              height={160}
+              decoding="async"
               className="w-full h-full object-contain"
             />
           </motion.div>
@@ -71,6 +74,7 @@ export const IntroOverlay: React.FC<IntroOverlayProps> = ({ show, onFinish }) =>
           <button
             type="button"
             onClick={onFinish}
+            aria-label="Skip introduction animation"
             className="mt-6 text-[11px] text-slate-500 hover:text-white uppercase tracking-widest transition-colors cursor-pointer"
           >
             Skip Intro →

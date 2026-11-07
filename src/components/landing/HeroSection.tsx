@@ -49,8 +49,17 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
         </p>
 
         <div 
+          role="button"
+          tabIndex={0}
           onClick={onLogoClick}
-          className="logo-portal-card relative group cursor-pointer w-48 h-48 sm:w-64 sm:h-64 md:w-80 md:h-80 rounded-full bg-white dark:bg-[#19263A] p-2 sm:p-2.5 shadow-2xl border-4 border-[#3985FF] dark:border-[#F6A81C] flex items-center justify-center overflow-hidden transition-all duration-300 hover:scale-105 active:scale-95"
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault();
+              onLogoClick();
+            }
+          }}
+          aria-label="Enter GRANTLY scholarship portal"
+          className="logo-portal-card relative group cursor-pointer w-48 h-48 sm:w-64 sm:h-64 md:w-80 md:h-80 rounded-full bg-white dark:bg-[#19263A] p-2 sm:p-2.5 shadow-2xl border-4 border-[#3985FF] dark:border-[#F6A81C] flex items-center justify-center overflow-hidden transition-all duration-300 hover:scale-105 active:scale-95 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[#3985FF]"
           style={{ willChange: 'transform' }}
           title="Click to enter GRANTLY"
         >
@@ -65,6 +74,9 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
             <img
               src={grantlyLogo}
               alt="GRANTLY Official Portal Emblem"
+              width={320}
+              height={320}
+              decoding="async"
               className="w-full h-full object-contain select-none p-1 group-hover:scale-105 transition-transform duration-300"
             />
           </div>

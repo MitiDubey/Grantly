@@ -8,7 +8,7 @@ import {
   MapPin 
 } from 'lucide-react';
 import { useApp } from '../context/AppContext';
-import { StudentProfile } from '../types';
+import { StudentProfile, StudentCategory } from '../types';
 
 // All 28 States and 8 Union Territories of India
 const INDIAN_STATES = [
@@ -365,7 +365,7 @@ export const Profile: React.FC = () => {
             </label>
             <select
               value={formData.category}
-              onChange={e => setFormData({ ...formData, category: e.target.value as any })}
+              onChange={e => setFormData({ ...formData, category: e.target.value as StudentCategory })}
               className="w-full px-4 py-2.5 rounded-xl border border-slate-200 dark:border-[#304058] bg-slate-50 dark:bg-[#101B2D] text-sm text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#3985FF]"
             >
               <option value="General">General / Open</option>

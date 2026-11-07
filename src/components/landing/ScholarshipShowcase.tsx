@@ -31,6 +31,10 @@ export const ScholarshipShowcase: React.FC<ScholarshipShowcaseProps> = ({
         <img
           src={studentsHero}
           alt="Indian college students studying with digital scholarship platform at Gateway of India"
+          width={1280}
+          height={720}
+          loading="lazy"
+          decoding="async"
           className="showcase-image w-full h-full object-cover object-center select-none"
         />
 

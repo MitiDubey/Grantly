@@ -13,6 +13,8 @@ import { ScholarshipCard } from '../components/scholarships/ScholarshipCard';
 import { ScholarshipDetailsModal } from '../components/scholarships/ScholarshipDetailsModal';
 import { Scholarship } from '../types';
 
+type SortOption = 'match' | 'amount-desc' | 'amount-asc' | 'deadline-soon' | 'deadline-latest' | 'recent';
+
 export const Explorer: React.FC = () => {
   const { 
     user, 
@@ -26,7 +28,7 @@ export const Explorer: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
   const [onlyHighMatch, setOnlyHighMatch] = useState<boolean>(false);
-  const [sortBy, setSortBy] = useState<'match' | 'amount-desc' | 'amount-asc' | 'deadline-soon' | 'deadline-latest' | 'recent'>('match');
+  const [sortBy, setSortBy] = useState<SortOption>('match');
   const [selectedScholarship, setSelectedScholarship] = useState<Scholarship | null>(null);
 
   // Extract unique categories
@@ -125,13 +127,16 @@ export const Explorer: React.FC = () => {
               placeholder="Search by scholarship title, provider, field of study, or state..."
               value={searchQuery}
               onChange={e => setSearchQuery(e.target.value)}
+              aria-label="Search scholarships"
               className="w-full pl-10 pr-10 py-2.5 rounded-xl border border-[#E4E9F1] dark:border-[#304058] bg-[#F5F7FB] dark:bg-[#101B2D] text-sm text-[#172033] dark:text-white placeholder:text-[#98A2B3] focus:outline-none focus:ring-2 focus:ring-[#3985FF] transition-all"
             />
             {searchQuery && (
               <button
+                type="button"
                 onClick={() => setSearchQuery('')}
                 className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 dark:hover:text-white p-1"
                 title="Clear query"
+                aria-label="Clear search query"
               >
                 <X className="w-4 h-4" />
               </button>
@@ -143,7 +148,8 @@ export const Explorer: React.FC = () => {
             <ArrowUpDown className="w-4 h-4 text-[#98A2B3] shrink-0" />
             <select
               value={sortBy}
-              onChange={e => setSortBy(e.target.value as any)}
+              onChange={e => setSortBy(e.target.value as SortOption)}
+              aria-label="Sort scholarships by"
               className="w-full sm:w-auto px-3.5 py-2.5 rounded-xl border border-[#E4E9F1] dark:border-[#304058] bg-[#F5F7FB] dark:bg-[#101B2D] text-xs font-semibold text-[#172033] dark:text-slate-200 focus:outline-none focus:ring-2 focus:ring-[#3985FF] cursor-pointer"
             >
               <option value="match">Best Match</option>

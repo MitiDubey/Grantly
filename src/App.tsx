@@ -1,13 +1,22 @@
-import React, { useState } from 'react';
+import React, { useState, Suspense, lazy } from 'react';
 import { AppProvider } from './context/AppContext';
 import { Landing } from './pages/Landing';
 import { AppShell } from './components/layout/AppShell';
-import { Dashboard } from './pages/Dashboard';
-import { Explorer } from './pages/Explorer';
-import { Recommendations } from './pages/Recommendations';
-import { Saved } from './pages/Saved';
-import { Applications } from './pages/Applications';
-import { Profile } from './pages/Profile';
+
+// Route-level code splitting for fast initial page load and optimal performance
+const Dashboard = lazy(() => import('./pages/Dashboard').then(m => ({ default: m.Dashboard })));
+const Explorer = lazy(() => import('./pages/Explorer').then(m => ({ default: m.Explorer })));
+const Recommendations = lazy(() => import('./pages/Recommendations').then(m => ({ default: m.Recommendations })));
+const Saved = lazy(() => import('./pages/Saved').then(m => ({ default: m.Saved })));
+const Applications = lazy(() => import('./pages/Applications').then(m => ({ default: m.Applications })));
+const Profile = lazy(() => import('./pages/Profile').then(m => ({ default: m.Profile })));
+
+const ViewLoadingFallback: React.FC = () => (
+  <div className="flex items-center justify-center min-h-[350px] w-full" role="status" aria-live="polite">
+    <div className="w-8 h-8 rounded-full border-2 border-[#3985FF] border-t-transparent animate-spin" />
+    <span className="sr-only">Loading content...</span>
+  </div>
+);
 
 const MainAppContent: React.FC = () => {
   // Track whether we are in the landing view or inside the authenticated app shell
@@ -37,12 +46,14 @@ const MainAppContent: React.FC = () => {
       onSelectTab={setCurrentTab}
       onGoHome={handleGoHome}
     >
-      {currentTab === 'dashboard' && <Dashboard onNavigateTab={setCurrentTab} />}
-      {currentTab === 'explorer' && <Explorer />}
-      {currentTab === 'recommendations' && <Recommendations />}
-      {currentTab === 'saved' && <Saved onExplore={() => setCurrentTab('explorer')} />}
-      {currentTab === 'applications' && <Applications onExplore={() => setCurrentTab('explorer')} />}
-      {currentTab === 'profile' && <Profile />}
+      <Suspense fallback={<ViewLoadingFallback />}>
+        {currentTab === 'dashboard' && <Dashboard onNavigateTab={setCurrentTab} />}
+        {currentTab === 'explorer' && <Explorer />}
+        {currentTab === 'recommendations' && <Recommendations />}
+        {currentTab === 'saved' && <Saved onExplore={() => setCurrentTab('explorer')} />}
+        {currentTab === 'applications' && <Applications onExplore={() => setCurrentTab('explorer')} />}
+        {currentTab === 'profile' && <Profile />}
+      </Suspense>
     </AppShell>
   );
 };

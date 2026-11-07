@@ -1,3 +1,5 @@
+export type StudentCategory = 'General' | 'OBC' | 'SC/ST' | 'Minority' | 'EWS' | 'Women in STEM' | 'First-Generation';
+
 export type StudentProfile = {
   id: string;
   name: string;
@@ -10,7 +12,7 @@ export type StudentProfile = {
   year: number;
   state: string;
   familyIncome: number; // annual in INR / USD
-  category: 'General' | 'OBC' | 'SC/ST' | 'Minority' | 'EWS' | 'Women in STEM' | 'First-Generation';
+  category: StudentCategory;
   academicScore: number; // percentage or GPA scale (0-100)
 };
 

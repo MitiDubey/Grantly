@@ -49,15 +49,24 @@ export const AppShell: React.FC<AppShellProps> = ({
     });
   };
 
-  // Close mobile drawer on route change or resize
+  // Close mobile drawer on route change, resize, or Escape key
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth >= 1024) {
         setMobileMenuOpen(false);
       }
     };
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setMobileMenuOpen(false);
+      }
+    };
     window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
+    window.addEventListener('keydown', handleKeyDown);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+      window.removeEventListener('keydown', handleKeyDown);
+    };
   }, []);
 
   const appliedCount = applications.filter(a => a.status === 'Applied' || a.status === 'Under Review').length;
@@ -86,14 +95,23 @@ export const AppShell: React.FC<AppShellProps> = ({
         {/* Brand Header */}
         <div className="p-4 flex items-center justify-between border-b border-[#E4E9F1] dark:border-[#223149] min-h-[68px]">
           <div 
+            role="button"
+            tabIndex={0}
             onClick={onGoHome}
-            className={`flex items-center gap-3 cursor-pointer group transition-all duration-200 ${
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                onGoHome();
+              }
+            }}
+            aria-label="Return to landing page"
+            className={`flex items-center gap-3 cursor-pointer group transition-all duration-200 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#3985FF] ${
               isSidebarCollapsed ? 'justify-center w-full' : ''
             }`}
             title="Go to Landing Page"
           >
             <div className="w-10 h-10 rounded-full bg-white p-1 border-2 border-[#3985FF]/40 shadow-sm flex items-center justify-center overflow-hidden flex-shrink-0 group-hover:scale-105 transition-transform">
-              <img src={grantlyLogo} alt="GRANTLY Logo" className="w-full h-full object-contain" />
+              <img src={grantlyLogo} alt="GRANTLY Logo" width={40} height={40} decoding="async" className="w-full h-full object-contain" />
             </div>
             {!isSidebarCollapsed && (
               <div className="overflow-hidden transition-opacity duration-200">
@@ -159,14 +177,23 @@ export const AppShell: React.FC<AppShellProps> = ({
         {/* User Card & Sidebar Controls at Bottom */}
         <div className="p-2.5 border-t border-[#E4E9F1] dark:border-[#223149] bg-[#F5F7FB]/70 dark:bg-[#101B2D]/40">
           <div 
+            role="button"
+            tabIndex={0}
             onClick={() => onSelectTab('profile')}
-            className={`flex items-center gap-2.5 p-2 rounded-xl hover:bg-white dark:hover:bg-[#223149] transition-colors cursor-pointer ${
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                onSelectTab('profile');
+              }
+            }}
+            aria-label="View student profile"
+            className={`flex items-center gap-2.5 p-2 rounded-xl hover:bg-white dark:hover:bg-[#223149] transition-colors cursor-pointer rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#3985FF] ${
               isSidebarCollapsed ? 'justify-center' : ''
             }`}
             title={user?.name || 'Student Profile'}
           >
             {user?.avatar ? (
-              <img src={user.avatar} alt={user.name} className="w-8 h-8 rounded-full object-cover ring-2 ring-[#3985FF] flex-shrink-0" />
+              <img src={user.avatar} alt={user.name} width={32} height={32} decoding="async" className="w-8 h-8 rounded-full object-cover ring-2 ring-[#3985FF] flex-shrink-0" />
             ) : (
               <div className="w-8 h-8 rounded-full bg-[#3985FF] text-white flex items-center justify-center font-bold text-xs flex-shrink-0">
                 {user?.name?.charAt(0) || 'U'}
@@ -191,25 +218,30 @@ export const AppShell: React.FC<AppShellProps> = ({
             <button
               type="button"
               onClick={toggleTheme}
-              className="p-2 rounded-lg text-[#667085] dark:text-slate-300 hover:text-[#3985FF] hover:bg-white dark:hover:bg-[#223149] transition-colors cursor-pointer flex items-center gap-1.5"
+              className="p-2 rounded-lg text-[#667085] dark:text-slate-300 hover:text-[#3985FF] hover:bg-white dark:hover:bg-[#223149] transition-colors cursor-pointer flex items-center gap-1.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#3985FF]"
               title={isDark ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+              aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
             >
               {isDark ? <Sun className="w-4 h-4 text-amber-400" /> : <Moon className="w-4 h-4 text-[#101B2D]" />}
               {!isSidebarCollapsed && <span className="text-[11px] font-semibold">{isDark ? 'Light' : 'Dark'}</span>}
             </button>
             
             <button
+              type="button"
               onClick={onGoHome}
-              className="p-2 rounded-lg text-[#667085] hover:text-[#172033] dark:text-slate-400 dark:hover:text-white hover:bg-white dark:hover:bg-[#223149] transition-colors cursor-pointer"
+              className="p-2 rounded-lg text-[#667085] hover:text-[#172033] dark:text-slate-400 dark:hover:text-white hover:bg-white dark:hover:bg-[#223149] transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#3985FF]"
               title="Return to Landing Portal"
+              aria-label="Return to landing portal"
             >
               <Home className="w-4 h-4" />
             </button>
 
             <button
+              type="button"
               onClick={logout}
-              className="p-2 rounded-lg text-rose-500 hover:text-rose-700 hover:bg-rose-50 dark:hover:bg-rose-950/30 transition-colors cursor-pointer"
+              className="p-2 rounded-lg text-rose-500 hover:text-rose-700 hover:bg-rose-50 dark:hover:bg-rose-950/30 transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rose-500"
               title="Sign Out"
+              aria-label="Sign out of student account"
             >
               <LogOut className="w-4 h-4" />
             </button>
@@ -298,18 +330,24 @@ export const AppShell: React.FC<AppShellProps> = ({
 
         {/* Mobile Navigation Drawer with Backdrop */}
         {mobileMenuOpen && (
-          <div className="lg:hidden fixed inset-0 z-50 flex">
+          <div 
+            className="lg:hidden fixed inset-0 z-50 flex"
+            role="dialog"
+            aria-modal="true"
+            aria-label="Mobile Navigation Menu"
+          >
             {/* Backdrop */}
             <div 
               className="fixed inset-0 bg-black/50 backdrop-blur-sm transition-opacity"
               onClick={() => setMobileMenuOpen(false)}
+              aria-hidden="true"
             />
             {/* Drawer */}
             <div className="relative w-72 max-w-[80vw] bg-white dark:bg-[#19263A] h-full shadow-2xl flex flex-col p-4 space-y-3 z-10 border-r border-slate-200 dark:border-[#304058]">
               <div className="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-[#223149]">
                 <div className="flex items-center gap-2.5">
                   <div className="w-9 h-9 rounded-full bg-white p-1 border border-[#3985FF]/40 shadow-sm flex items-center justify-center overflow-hidden">
-                    <img src={grantlyLogo} alt="GRANTLY Logo" className="w-full h-full object-contain" />
+                    <img src={grantlyLogo} alt="GRANTLY Logo" width={36} height={36} decoding="async" className="w-full h-full object-contain" />
                   </div>
                   <div>
                     <span className="font-extrabold text-base tracking-tight text-[#101B2D] dark:text-white font-display block">
@@ -321,8 +359,10 @@ export const AppShell: React.FC<AppShellProps> = ({
                   </div>
                 </div>
                 <button
+                  type="button"
                   onClick={() => setMobileMenuOpen(false)}
-                  className="p-1.5 rounded-lg text-slate-500 hover:bg-slate-100 dark:hover:bg-[#223149]"
+                  className="p-1.5 rounded-lg text-slate-500 hover:bg-slate-100 dark:hover:bg-[#223149] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#3985FF]"
+                  aria-label="Close mobile menu"
                 >
                   <X className="w-5 h-5" />
                 </button>

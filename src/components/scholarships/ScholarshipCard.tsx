@@ -17,7 +17,7 @@ interface ScholarshipCardProps {
   onApplyOrUpdateStatus?: (id: string, status: ApplicationStatus) => void;
 }
 
-export const ScholarshipCard: React.FC<ScholarshipCardProps> = ({
+const ScholarshipCardComponent: React.FC<ScholarshipCardProps> = ({
   scholarship,
   eligibility,
   isSaved = false,
@@ -62,26 +62,30 @@ export const ScholarshipCard: React.FC<ScholarshipCardProps> = ({
           </div>
 
           <button
+            type="button"
             onClick={() => onToggleSave(scholarship.id)}
-            className={`p-2 rounded-xl transition-all active:scale-90 cursor-pointer ${
+            className={`p-2 rounded-xl transition-all active:scale-90 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#3985FF] ${
               isSaved
                 ? 'bg-[#EAF2FF] dark:bg-[#223149] text-[#3985FF]'
                 : 'text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-[#223149]'
             }`}
             title={isSaved ? 'Remove from Saved' : 'Save Scholarship'}
-            aria-label="Save scholarship"
+            aria-label={isSaved ? `Remove ${scholarship.name} from saved` : `Save ${scholarship.name}`}
           >
             <Bookmark className={`w-4 h-4 ${isSaved ? 'fill-current' : ''}`} />
           </button>
         </div>
 
         {/* Title & Provider */}
-        <h3 
-          onClick={() => onViewDetails(scholarship)}
-          className="text-base sm:text-lg font-bold font-display text-[#101B2D] dark:text-white group-hover:text-[#3985FF] transition-colors cursor-pointer line-clamp-1"
-          title={scholarship.name}
-        >
-          {scholarship.name}
+        <h3>
+          <button
+            type="button"
+            onClick={() => onViewDetails(scholarship)}
+            className="text-left w-full text-base sm:text-lg font-bold font-display text-[#101B2D] dark:text-white group-hover:text-[#3985FF] transition-colors cursor-pointer line-clamp-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#3985FF] rounded"
+            title={scholarship.name}
+          >
+            {scholarship.name}
+          </button>
         </h3>
         <p className="text-xs text-[#667085] dark:text-[#A8B4C7] mt-1 line-clamp-1 font-medium">
           {scholarship.provider}
@@ -159,4 +163,6 @@ export const ScholarshipCard: React.FC<ScholarshipCardProps> = ({
     </div>
   );
 };
+
+export const ScholarshipCard = React.memo(ScholarshipCardComponent);
 
