@@ -55,41 +55,43 @@ export const Dashboard: React.FC<DashboardProps> = ({ onNavigateTab }) => {
   return (
     <div className="space-y-8">
       
-      {/* 1. Welcome Panel adhering to Brand Style Guide */}
-      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-[#101B2D] via-[#19263A] to-[#101B2D] p-6 sm:p-8 text-white border border-[#304058] shadow-lg">
+      {/* 1. Welcome Panel adhering to Brand Style Guide - Adaptive for Light and Dark themes */}
+      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-[#172b4d] via-[#101B2D] to-[#1e3a63] dark:from-[#101B2D] dark:via-[#19263A] dark:to-[#101B2D] light:bg-gradient-to-r light:from-[#1a365d] p-6 sm:p-8 text-white border border-blue-900/30 dark:border-[#304058] shadow-xl shadow-blue-950/10">
+        
+        {/* Subtle decorative mesh gradient accents */}
+        <div className="absolute top-0 right-0 -mr-16 -mt-16 w-80 h-80 rounded-full bg-[#3985FF]/20 blur-3xl pointer-events-none" />
+        <div className="absolute bottom-0 left-1/3 -mb-16 w-64 h-64 rounded-full bg-[#F6A81C]/15 blur-3xl pointer-events-none" />
+
         <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
-          <div className="space-y-2">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/20 text-[#3985FF] border border-blue-500/30 text-xs font-semibold uppercase tracking-wider">
-              <Sparkles className="w-3.5 h-3.5" />
+          <div className="space-y-2.5 max-w-2xl">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/20 text-[#60a5fa] border border-blue-400/30 text-xs font-semibold uppercase tracking-wider backdrop-blur-sm">
+              <Sparkles className="w-3.5 h-3.5 text-[#F6A81C]" />
               <span>Fall 2026 Academic Grant Cycle</span>
             </div>
-            <h2 className="text-2xl sm:text-4xl font-extrabold font-display tracking-tight text-white">
+            <h2 className="text-2xl sm:text-4xl font-extrabold font-display tracking-tight text-white drop-shadow-sm">
               Welcome back, {user?.name.split(' ')[0] || 'Scholar'}! 👋
             </h2>
-            <p className="text-sm text-slate-300 max-w-xl font-normal leading-relaxed">
-              You are matched with <span className="text-[#3985FF] font-bold">{eligibleScholarships.length} high-value opportunities</span> based on your {user?.course} profile. Keep track of approaching deadlines.
+            <p className="text-sm text-blue-100/90 dark:text-slate-300 font-normal leading-relaxed">
+              You are matched with <span className="text-[#60a5fa] dark:text-[#3985FF] font-bold">{eligibleScholarships.length} high-value opportunities</span> based on your {user?.course} profile. Keep track of approaching deadlines.
             </p>
           </div>
 
-          <div className="flex flex-wrap items-center gap-3">
+          <div className="flex flex-wrap items-center gap-3 shrink-0">
             <button
               onClick={() => onNavigateTab('recommendations')}
-              className="px-5 py-3 rounded-xl bg-[#3985FF] hover:bg-[#2b74ed] active:scale-95 text-white font-bold text-xs shadow-md shadow-blue-500/30 flex items-center gap-2 transition-all"
+              className="px-5 py-3 rounded-xl bg-[#3985FF] hover:bg-[#2575f0] active:scale-95 text-white font-bold text-xs shadow-lg shadow-blue-500/30 flex items-center gap-2 transition-all cursor-pointer"
             >
-              <Sparkles className="w-4 h-4" />
+              <Sparkles className="w-4 h-4 text-[#F6A81C]" />
               <span>View Match Scores</span>
             </button>
             <button
               onClick={() => onNavigateTab('profile')}
-              className="px-4 py-3 rounded-xl bg-white/10 hover:bg-white/20 text-white font-bold text-xs border border-white/20 transition-all"
+              className="px-4 py-3 rounded-xl bg-white/10 hover:bg-white/20 active:scale-95 text-white font-bold text-xs border border-white/20 transition-all cursor-pointer backdrop-blur-sm"
             >
               Update Criteria
             </button>
           </div>
         </div>
-
-        {/* Ambient background decoration */}
-        <div className="absolute right-0 bottom-0 translate-x-12 translate-y-12 w-64 h-64 bg-[#3985FF]/10 rounded-full blur-3xl pointer-events-none" />
       </div>
 
       {/* 2. Key Metrics Row */}
