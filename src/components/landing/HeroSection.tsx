@@ -17,17 +17,22 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
       {/* Surrounding Hero Content */}
       <div className="hero-text-content space-y-4">
         {/* Hero Badge with Logo Gold Star Accent */}
-        <div className="hero-badge inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-amber-300/40 dark:border-amber-400/30 bg-amber-50/80 dark:bg-[#19263A]/90 text-[#101B2D] dark:text-white text-xs font-semibold uppercase tracking-wider mb-2 shadow-sm backdrop-blur-sm">
+        <div className="hero-badge inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-amber-300/40 dark:border-amber-400/40 bg-amber-50/80 dark:bg-[#19263A]/90 text-[#101B2D] dark:text-white text-xs font-semibold uppercase tracking-wider mb-2 shadow-sm backdrop-blur-sm">
           <Sparkles className="w-3.5 h-3.5 text-[#F6A81C] animate-pulse" />
           <span className="text-[#3985FF] font-bold">GRANTLY</span>
           <span className="text-slate-400">•</span>
           <span className="text-slate-700 dark:text-slate-200">Next-Gen Scholarship Intelligence</span>
         </div>
 
-        {/* Headline with Electric Blue & Subtle Golden Gradient Highlights */}
+        {/* Headline:
+            In Light Mode: Electric Blue gradient
+            In Dark Mode: Highly visible Golden-Yellow text with warm glowing shadow
+        */}
         <h1 className="text-4xl sm:text-6xl md:text-7xl font-extrabold font-display tracking-tight text-[#101B2D] dark:text-white leading-[1.08] max-w-4xl mx-auto">
           <span className="hero-title-line block">Your Future,</span>
-          <span className="hero-title-line block text-transparent bg-clip-text bg-gradient-to-r from-[#3985FF] via-blue-400 to-[#F6A81C] dark:to-[#FFD54F]">
+          <span 
+            className="hero-title-line block font-black text-[#3985FF] dark:text-[#F4B740] drop-shadow-sm dark:drop-shadow-[0_4px_24px_rgba(244,183,64,0.45)] transition-colors duration-200"
+          >
             Funded.
           </span>
         </h1>
@@ -38,9 +43,9 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
         </p>
       </div>
 
-      {/* SECTION 1 LOGO PORTAL: FULL CIRCLE LOGO COVERAGE WITH DUAL BLUE & GOLD RAYS */}
+      {/* SECTION 1 LOGO PORTAL: PROPORTIONATE EMBEDDED CIRCULAR LOGO FIT */}
       <div className="my-8 flex flex-col items-center justify-center">
-        <p className="text-xs font-semibold uppercase tracking-widest text-[#3985FF] mb-4 flex items-center gap-1.5 select-none animate-pulse">
+        <p className="text-xs font-semibold uppercase tracking-widest text-[#3985FF] dark:text-[#F6A81C] mb-4 flex items-center gap-1.5 select-none animate-pulse">
           <span className="text-[#F6A81C]">★</span>
           <span>CLICK THE LOGO PORTAL TO ENTER</span>
           <span className="text-[#F6A81C]">★</span>
@@ -48,27 +53,27 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
 
         <div 
           onClick={onLogoClick}
-          className="logo-portal-card relative group cursor-pointer w-64 h-64 sm:w-80 sm:h-80 rounded-full bg-white dark:bg-[#19263A] p-2 shadow-2xl border-4 border-[#3985FF] flex items-center justify-center overflow-hidden transition-all duration-300 hover:scale-105 active:scale-95"
+          className="logo-portal-card relative group cursor-pointer w-64 h-64 sm:w-80 sm:h-80 rounded-full bg-white dark:bg-[#19263A] p-2.5 shadow-2xl border-4 border-[#3985FF] dark:border-[#F6A81C] flex items-center justify-center overflow-hidden transition-all duration-300 hover:scale-105 active:scale-95"
           style={{ willChange: 'transform' }}
           title="Click to enter GRANTLY"
         >
-          {/* Subtle spinning dashed orbital accent */}
-          <div className="absolute inset-2 rounded-full border border-dashed border-[#F6A81C]/50 pointer-events-none animate-[spin_25s_linear_infinite]" />
+          {/* Rotating dashed orbital accent */}
+          <div className="absolute inset-2 rounded-full border border-dashed border-[#3985FF]/40 dark:border-[#F6A81C]/50 pointer-events-none animate-[spin_25s_linear_infinite]" />
           
-          {/* Dual Glow: Electric Blue + Logo Star Gold */}
+          {/* Dual Glow: Electric Blue in light, warm gold in dark */}
           <div className="absolute -inset-4 rounded-full bg-gradient-to-tr from-[#3985FF]/30 via-[#F6A81C]/25 to-transparent blur-xl pointer-events-none" />
 
-          {/* Actual Circular GRANTLY Official Logo Covering the Full Circle */}
+          {/* Inner Circular Logo Container */}
           <div className="w-full h-full rounded-full overflow-hidden bg-white flex items-center justify-center p-3 z-10 shadow-inner">
             <img
               src={grantlyLogo}
               alt="GRANTLY Official Portal Emblem"
-              className="w-full h-full object-cover select-none scale-110 group-hover:scale-115 transition-transform duration-300"
+              className="w-full h-full object-contain select-none p-1 group-hover:scale-105 transition-transform duration-300"
             />
           </div>
 
           {/* Golden / Blue Hover Ring Glow */}
-          <div className="absolute inset-0 rounded-full ring-4 ring-[#F6A81C]/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none z-20" />
+          <div className="absolute inset-0 rounded-full ring-4 ring-[#3985FF]/40 dark:ring-[#F6A81C]/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none z-20" />
         </div>
       </div>
 

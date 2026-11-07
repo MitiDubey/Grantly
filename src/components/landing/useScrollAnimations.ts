@@ -168,8 +168,60 @@ export const useScrollAnimations = (rootRef: React.RefObject<HTMLDivElement | nu
             },
             '-=0.5'
           );
+
+        // 4. Statistics Banner 3D Pop-out (Matching Feature Cards)
+        const statsTl = gsap.timeline({
+          scrollTrigger: {
+            trigger: '.stats-section',
+            start: 'top 75%',
+            toggleActions: 'play none none reverse',
+          },
+        });
+
+        statsTl
+          .fromTo(
+            '.stat-card-0',
+            { opacity: 0, y: 50, scale: 0.85, z: -100 },
+            { opacity: 1, y: 0, scale: 1, z: 0, duration: 0.7, ease: 'back.out(1.4)' }
+          )
+          .fromTo(
+            '.stat-card-1',
+            { opacity: 0, y: 50, scale: 0.85, z: -100 },
+            { opacity: 1, y: 0, scale: 1, z: 0, duration: 0.7, ease: 'back.out(1.4)' },
+            '-=0.45'
+          )
+          .fromTo(
+            '.stat-card-2',
+            { opacity: 0, y: 50, scale: 0.85, z: -100 },
+            { opacity: 1, y: 0, scale: 1, z: 0, duration: 0.7, ease: 'back.out(1.4)' },
+            '-=0.45'
+          )
+          .fromTo(
+            '.stat-card-3',
+            { opacity: 0, y: 50, scale: 0.85, z: -100 },
+            { opacity: 1, y: 0, scale: 1, z: 0, duration: 0.7, ease: 'back.out(1.4)' },
+            '-=0.45'
+          );
+
+        // 5. Final CTA Banner Entrance
+        gsap.fromTo(
+          '.final-cta-section',
+          { opacity: 0, y: 50, scale: 0.95 },
+          {
+            scrollTrigger: {
+              trigger: '.final-cta-section',
+              start: 'top 80%',
+              toggleActions: 'play none none reverse',
+            },
+            opacity: 1,
+            y: 0,
+            scale: 1,
+            duration: 0.8,
+            ease: 'power3.out',
+          }
+        );
       } else {
-        // Simplified mobile staggered fade up
+        // Mobile Smooth Progressive Animations
         gsap.fromTo(
           '.features-header-block',
           { y: 30, opacity: 0 },
@@ -181,52 +233,66 @@ export const useScrollAnimations = (rootRef: React.RefObject<HTMLDivElement | nu
             y: 0,
             opacity: 1,
             duration: 0.6,
+            ease: 'power2.out',
           }
         );
 
         gsap.fromTo(
           '.feature-card',
-          { y: 40, opacity: 0 },
+          { y: 40, opacity: 0, scale: 0.95 },
           {
             scrollTrigger: {
-              trigger: '.features-cards-grid',
+              trigger: '.feature-cards-grid',
               start: 'top 85%',
             },
             y: 0,
             opacity: 1,
+            scale: 1,
             duration: 0.6,
             stagger: 0.18,
             ease: 'power2.out',
           }
         );
+
+        gsap.fromTo(
+          '.stat-card',
+          { y: 30, opacity: 0, scale: 0.95 },
+          {
+            scrollTrigger: {
+              trigger: '.stats-cards-grid',
+              start: 'top 85%',
+            },
+            y: 0,
+            opacity: 1,
+            scale: 1,
+            duration: 0.5,
+            stagger: 0.12,
+            ease: 'power2.out',
+          }
+        );
+
+        gsap.fromTo(
+          '.final-cta-section',
+          { opacity: 0, y: 30 },
+          {
+            scrollTrigger: {
+              trigger: '.final-cta-section',
+              start: 'top 85%',
+            },
+            opacity: 1,
+            y: 0,
+            duration: 0.6,
+            ease: 'power2.out',
+          }
+        );
       }
 
-      // 4. Statistics Banner Animation (Phase 8)
-      gsap.fromTo(
-        '.stats-container',
-        {
-          y: 40,
-          opacity: 0.2,
-        },
-        {
-          scrollTrigger: {
-            trigger: '.stats-banner-wrapper',
-            start: 'top 85%',
-            toggleActions: 'play none none reverse',
-          },
-          y: 0,
-          opacity: 1,
-          duration: 0.7,
-          ease: 'power2.out',
-        }
-      );
-
-      // 5. Footer natural entry (Phase 9)
+      // 6. Footer natural entry
       gsap.fromTo(
         '.footer-section',
         {
           opacity: 0,
-          y: 20,
+          y: 30,
         },
         {
           scrollTrigger: {

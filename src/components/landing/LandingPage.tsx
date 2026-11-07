@@ -6,6 +6,7 @@ import { HeroSection } from './HeroSection';
 import { ScholarshipShowcase } from './ScholarshipShowcase';
 import { FeatureCards } from './FeatureCards';
 import { StatsBanner } from './StatsBanner';
+import { FinalCTA } from './FinalCTA';
 import { Footer } from './Footer';
 import { IntroOverlay } from './IntroOverlay';
 import { AnimatedBackground } from './AnimatedBackground';
@@ -64,7 +65,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onEnterApp }) => {
         onFinish={() => setShowIntro(false)}
       />
 
-      {/* NEW: Dynamic Animated Wave & Glow Background inspired by Logo Colors (Yellow & Electric Blue) */}
+      {/* Dynamic Animated Wave Background */}
       <AnimatedBackground isDark={isDark} />
 
       {/* 1. Minimal Fixed Navbar */}
@@ -92,19 +93,36 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onEnterApp }) => {
         />
       </div>
 
-      {/* 4. Feature Cards Grid */}
+      {/* 4. Feature Cards Grid with 3D Pop-Out */}
       <div className="feature-cards-wrapper py-10 relative z-10">
         <FeatureCards />
       </div>
 
-      {/* 5. Dark Statistics Banner */}
-      <div className="stats-banner-wrapper py-6 relative z-10">
+      {/* 5. Redesigned 4 Individual Statistic Cards with 3D Pop-Out */}
+      <div className="stats-banner-wrapper py-4 relative z-10">
         <StatsBanner />
       </div>
 
-      {/* 6. Footer */}
+      {/* 6. Premium Final Call-To-Action Banner */}
+      <div className="final-cta-wrapper py-4 relative z-10">
+        <FinalCTA
+          onExplore={() => {
+            if (isAuthenticated) {
+              onEnterApp();
+            } else {
+              handleOpenAuth('signup');
+            }
+          }}
+          onCheckEligibility={handleCheckEligibilityClick}
+        />
+      </div>
+
+      {/* 7. Multi-Column Branded SaaS Footer */}
       <div className="relative z-10">
-        <Footer />
+        <Footer
+          onNavigateTab={onEnterApp}
+          onOpenAuth={handleOpenAuth}
+        />
       </div>
 
       {/* Auth Modal with Single Working Google Auth */}
