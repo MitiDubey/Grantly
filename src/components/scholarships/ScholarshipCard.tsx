@@ -1,13 +1,9 @@
 import React from 'react';
 import { 
-  Award, 
   Calendar, 
-  TrendingUp, 
-  CheckCircle2, 
   Bookmark, 
-  ExternalLink, 
-  AlertCircle,
-  HelpCircle
+  AlertCircle, 
+  HelpCircle 
 } from 'lucide-react';
 import { Scholarship, EligibilityResult, ApplicationStatus } from '../../types';
 
@@ -37,7 +33,6 @@ export const ScholarshipCard: React.FC<ScholarshipCardProps> = ({
   const isExpired = diffDays < 0;
 
   const score = eligibility?.score ?? 85;
-  const isEligible = eligibility ? eligibility.isEligible : true;
 
   return (
     <div className="relative group bg-white dark:bg-[#19263A] rounded-[20px] border border-[#E4E9F1] dark:border-[#304058] p-5 sm:p-6 shadow-[0_4px_16px_rgba(16,27,45,0.04)] hover:-translate-y-1 hover:shadow-xl transition-all duration-200 flex flex-col justify-between">

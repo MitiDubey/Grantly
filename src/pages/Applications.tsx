@@ -1,14 +1,6 @@
 import React, { useState } from 'react';
 import { 
   ClipboardList, 
-  CheckCircle2, 
-  Clock, 
-  AlertCircle, 
-  XCircle, 
-  FileText, 
-  Edit3,
-  Calendar,
-  Layers,
   ArrowRight
 } from 'lucide-react';
 import { useApp } from '../context/AppContext';

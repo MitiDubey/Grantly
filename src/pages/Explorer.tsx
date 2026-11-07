@@ -1,16 +1,11 @@
 import React, { useState, useMemo } from 'react';
 import { 
   Search, 
-  Filter, 
-  SlidersHorizontal, 
   X, 
   Sparkles, 
-  Award,
-  Layers,
-  ArrowUpDown,
-  RotateCcw,
-  CheckCircle2,
-  AlertCircle
+  Layers, 
+  ArrowUpDown, 
+  RotateCcw
 } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 import { calculateEligibility } from '../context/eligibility';

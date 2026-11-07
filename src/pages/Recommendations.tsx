@@ -3,10 +3,6 @@ import {
   Sparkles, 
   CheckCircle2, 
   XCircle, 
-  ChevronRight, 
-  ShieldAlert, 
-  Sliders, 
-  Award,
   ArrowRight
 } from 'lucide-react';
 import { useApp } from '../context/AppContext';
@@ -65,7 +61,6 @@ export const Recommendations: React.FC = () => {
       {/* Match Cards List with Breakdown */}
       <div className="space-y-4">
         {analyzedScholarships.map(({ scholarship, eligibility }) => {
-          const isSaved = savedScholarshipIds.includes(scholarship.id);
           const app = getApplication(scholarship.id);
 
           return (

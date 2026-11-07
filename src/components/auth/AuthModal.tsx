@@ -46,10 +46,14 @@ export const AuthModal: React.FC<AuthModalProps> = ({
   // Read Google Client ID from .env
   const googleClientId = import.meta.env.VITE_GOOGLE_CLIENT_ID || '572392265593-1p5ajcto08avdo07q1am04gn15j8egos.apps.googleusercontent.com';
 
-  useEffect(() => {
-    setMode(initialMode);
-    setErrorMsg('');
-  }, [initialMode, isOpen]);
+  const [prevOpen, setPrevOpen] = useState(isOpen);
+  if (prevOpen !== isOpen) {
+    setPrevOpen(isOpen);
+    if (isOpen) {
+      setMode(initialMode);
+      setErrorMsg('');
+    }
+  }
 
   // Initialize official Google Identity Services client with your Client ID
   useEffect(() => {

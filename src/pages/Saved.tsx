@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Bookmark, Sparkles, ArrowRight, Trash2, Layers } from 'lucide-react';
+import { Bookmark } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 import { calculateEligibility } from '../context/eligibility';
 import { ScholarshipCard } from '../components/scholarships/ScholarshipCard';

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { AppProvider, useApp } from './context/AppContext';
+import { AppProvider } from './context/AppContext';
 import { Landing } from './pages/Landing';
 import { AppShell } from './components/layout/AppShell';
 import { Dashboard } from './pages/Dashboard';
@@ -10,8 +10,6 @@ import { Applications } from './pages/Applications';
 import { Profile } from './pages/Profile';
 
 const MainAppContent: React.FC = () => {
-  const { isAuthenticated } = useApp();
-  
   // Track whether we are in the landing view or inside the authenticated app shell
   const [inApp, setInApp] = useState<boolean>(() => {
     return localStorage.getItem('grantly_in_app') === 'true';

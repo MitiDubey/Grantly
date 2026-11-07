@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import grantlyLogo from '../../assets/grantly-logo.png';
-import { Sun, Moon, ArrowRight, Menu, X, Sparkles } from 'lucide-react';
+import { Sun, Moon, ArrowRight, Menu, X } from 'lucide-react';
 
 interface NavbarProps {
   isDark: boolean;

@@ -5,8 +5,7 @@ import {
   Check, 
   Calendar, 
   Building2, 
-  MapPin, 
-  Sparkles 
+  MapPin 
 } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 import { StudentProfile } from '../types';

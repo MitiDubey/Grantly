@@ -1,6 +1,6 @@
 import React from 'react';
 import grantlyLogo from '../../assets/grantly-logo.png';
-import { ExternalLink, Mail, Shield, BookOpen } from 'lucide-react';
+import { Shield } from 'lucide-react';
 
 interface FooterProps {
   onNavigateTab?: (tab: string) => void;
@@ -59,7 +59,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigateTab, onOpenAuth }) => 
                 </a>
               </li>
               <li>
-                <a href="#matches" onClick={(e) => { e.preventDefault(); onNavigateTab ? onNavigateTab('recommendations') : onOpenAuth?.('signup'); }} className="hover:text-[#3985FF] transition-colors">
+                <a href="#matches" onClick={(e) => { e.preventDefault(); if (onNavigateTab) { onNavigateTab('recommendations'); } else { onOpenAuth?.('signup'); } }} className="hover:text-[#3985FF] transition-colors">
                   Smart Matching
                 </a>
               </li>
@@ -83,22 +83,22 @@ export const Footer: React.FC<FooterProps> = ({ onNavigateTab, onOpenAuth }) => 
             </p>
             <ul className="space-y-2.5 text-xs font-medium text-[#475569] dark:text-[#A8B4C7]">
               <li>
-                <a href="#dashboard" onClick={(e) => { e.preventDefault(); onNavigateTab ? onNavigateTab('dashboard') : onOpenAuth?.('signin'); }} className="hover:text-[#3985FF] transition-colors">
+                <a href="#dashboard" onClick={(e) => { e.preventDefault(); if (onNavigateTab) { onNavigateTab('dashboard'); } else { onOpenAuth?.('signin'); } }} className="hover:text-[#3985FF] transition-colors">
                   Student Dashboard
                 </a>
               </li>
               <li>
-                <a href="#tracker" onClick={(e) => { e.preventDefault(); onNavigateTab ? onNavigateTab('applications') : onOpenAuth?.('signin'); }} className="hover:text-[#3985FF] transition-colors">
+                <a href="#tracker" onClick={(e) => { e.preventDefault(); if (onNavigateTab) { onNavigateTab('applications'); } else { onOpenAuth?.('signin'); } }} className="hover:text-[#3985FF] transition-colors">
                   Application Tracker
                 </a>
               </li>
               <li>
-                <a href="#saved" onClick={(e) => { e.preventDefault(); onNavigateTab ? onNavigateTab('saved') : onOpenAuth?.('signin'); }} className="hover:text-[#3985FF] transition-colors">
+                <a href="#saved" onClick={(e) => { e.preventDefault(); if (onNavigateTab) { onNavigateTab('saved'); } else { onOpenAuth?.('signin'); } }} className="hover:text-[#3985FF] transition-colors">
                   Saved Scholarships
                 </a>
               </li>
               <li>
-                <a href="#profile" onClick={(e) => { e.preventDefault(); onNavigateTab ? onNavigateTab('profile') : onOpenAuth?.('signin'); }} className="hover:text-[#3985FF] transition-colors">
+                <a href="#profile" onClick={(e) => { e.preventDefault(); if (onNavigateTab) { onNavigateTab('profile'); } else { onOpenAuth?.('signin'); } }} className="hover:text-[#3985FF] transition-colors">
                   Student Profile
                 </a>
               </li>

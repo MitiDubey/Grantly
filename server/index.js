@@ -14,7 +14,7 @@ function readDb() {
   try {
     const raw = fs.readFileSync(DB_FILE, 'utf8');
     return JSON.parse(raw);
-  } catch (err) {
+  } catch {
     return { users: [], sessions: [] };
   }
 }
@@ -73,7 +73,7 @@ const server = http.createServer((req, res) => {
 
         res.writeHead(200, { 'Content-Type': 'application/json' });
         res.end(JSON.stringify({ success: true, user }));
-      } catch (err) {
+      } catch {
         res.writeHead(400, { 'Content-Type': 'application/json' });
         res.end(JSON.stringify({ success: false, error: 'Invalid payload' }));
       }
@@ -117,7 +117,7 @@ const server = http.createServer((req, res) => {
 
         res.writeHead(200, { 'Content-Type': 'application/json' });
         res.end(JSON.stringify({ success: true, user }));
-      } catch (err) {
+      } catch {
         res.writeHead(400, { 'Content-Type': 'application/json' });
         res.end(JSON.stringify({ success: false, error: 'Invalid payload' }));
       }
@@ -130,7 +130,7 @@ const server = http.createServer((req, res) => {
     req.on('data', chunk => { body += chunk; });
     req.on('end', () => {
       try {
-        const { email, password } = JSON.parse(body);
+        const { email } = JSON.parse(body);
         const db = readDb();
         let user = db.users.find(u => u.email === email);
 
@@ -159,7 +159,7 @@ const server = http.createServer((req, res) => {
 
         res.writeHead(200, { 'Content-Type': 'application/json' });
         res.end(JSON.stringify({ success: true, user }));
-      } catch (err) {
+      } catch {
         res.writeHead(400, { 'Content-Type': 'application/json' });
         res.end(JSON.stringify({ success: false, error: 'Invalid payload' }));
       }

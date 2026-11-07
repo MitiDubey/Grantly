@@ -5,12 +5,7 @@ import {
   Sparkles, 
   Bookmark, 
   Clock, 
-  CheckCircle, 
-  ArrowRight, 
-  Search,
-  AlertTriangle,
-  Award,
-  Layers
+  ArrowRight
 } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 import { calculateEligibility } from '../context/eligibility';
@@ -37,7 +32,6 @@ export const Dashboard: React.FC<DashboardProps> = ({ onNavigateTab }) => {
 
   // Compute metrics as per Implementation Plan (Section 3.1 & 10.2)
   const appliedList = applications.filter(a => a.status === 'Applied' || a.status === 'Under Review');
-  const approvedList = applications.filter(a => a.status === 'Approved');
 
   // Match and eligible scholarships
   const eligibleScholarships = user ? scholarships.filter(s => {
@@ -232,7 +226,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ onNavigateTab }) => {
           </div>
 
           <div className="p-5 rounded-2xl bg-white dark:bg-[#19263A] border border-slate-200 dark:border-[#304058] shadow-sm space-y-4">
-            {sortedByDeadline.slice(0, 5).map((sch, i) => {
+            {sortedByDeadline.slice(0, 5).map(sch => {
               const deadlineDate = new Date(sch.deadline);
               const now = new Date('2026-11-07');
               const diffDays = Math.ceil((deadlineDate.getTime() - now.getTime()) / (1000 * 60 * 60 * 24));

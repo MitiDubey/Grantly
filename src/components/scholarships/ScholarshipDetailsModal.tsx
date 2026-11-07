@@ -2,21 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { 
   X, 
-  Award, 
-  Calendar, 
   Building2, 
   CheckCircle2, 
   XCircle, 
   FileText, 
   Bookmark, 
-  ExternalLink, 
   ShieldCheck, 
-  Send,
-  GraduationCap,
-  Sparkles,
-  HelpCircle,
-  Clock,
-  ArrowRight
+  Send, 
+  Clock 
 } from 'lucide-react';
 import { Scholarship, EligibilityResult, ApplicationStatus } from '../../types';
 
@@ -39,14 +32,13 @@ export const ScholarshipDetailsModal: React.FC<ScholarshipDetailsModalProps> = (
   onToggleSave,
   onUpdateStatus,
 }) => {
-  if (!scholarship) return null;
-
   const [notes, setNotes] = useState('');
   const [selectedStatus, setSelectedStatus] = useState<ApplicationStatus>(currentStatus || 'Applied');
   const [appliedFeedback, setAppliedFeedback] = useState(false);
 
   // Lock background body scroll & support Escape key
   useEffect(() => {
+    if (!scholarship) return;
     const originalOverflow = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
 
@@ -61,7 +53,9 @@ export const ScholarshipDetailsModal: React.FC<ScholarshipDetailsModalProps> = (
       document.body.style.overflow = originalOverflow;
       window.removeEventListener('keydown', handleKeyDown);
     };
-  }, [onClose]);
+  }, [scholarship, onClose]);
+
+  if (!scholarship) return null;
 
   // Deadline calculation
   const deadlineDate = new Date(scholarship.deadline);
