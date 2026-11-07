@@ -8,6 +8,7 @@ import { FeatureCards } from './FeatureCards';
 import { StatsBanner } from './StatsBanner';
 import { Footer } from './Footer';
 import { IntroOverlay } from './IntroOverlay';
+import { AnimatedBackground } from './AnimatedBackground';
 import { useScrollAnimations } from './useScrollAnimations';
 
 interface LandingPageProps {
@@ -63,9 +64,8 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onEnterApp }) => {
         onFinish={() => setShowIntro(false)}
       />
 
-      {/* Background radial glows */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1100px] h-[550px] bg-gradient-to-b from-[#3985FF]/15 via-[#3985FF]/5 to-transparent blur-3xl pointer-events-none -z-0" />
-      <div className="absolute top-[40%] right-[-10%] w-[500px] h-[500px] bg-[#3985FF]/10 blur-[130px] pointer-events-none -z-0" />
+      {/* NEW: Dynamic Animated Wave & Glow Background inspired by Logo Colors (Yellow & Electric Blue) */}
+      <AnimatedBackground isDark={isDark} />
 
       {/* 1. Minimal Fixed Navbar */}
       <Navbar
@@ -78,7 +78,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onEnterApp }) => {
       />
 
       {/* 2. Hero Section with Full Circle Logo */}
-      <div className="hero-section-wrapper">
+      <div className="hero-section-wrapper relative z-10">
         <HeroSection
           onLogoClick={handleLogoPortalClick}
           onOpenAuth={handleOpenAuth}
@@ -86,24 +86,26 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onEnterApp }) => {
       </div>
 
       {/* 3. Pinned Scroll-Expanding Image Showcase (Exact dozfx.com Behavior) */}
-      <div className="showcase-section-wrapper min-h-screen w-full flex items-center justify-center py-4">
+      <div className="showcase-section-wrapper min-h-screen w-full flex items-center justify-center py-4 relative z-10">
         <ScholarshipShowcase
           onCheckEligibility={handleCheckEligibilityClick}
         />
       </div>
 
-      {/* 4. Feature Cards Grid (Smoothly reveals right after image expansion unpins) */}
-      <div className="feature-cards-wrapper py-10">
+      {/* 4. Feature Cards Grid */}
+      <div className="feature-cards-wrapper py-10 relative z-10">
         <FeatureCards />
       </div>
 
       {/* 5. Dark Statistics Banner */}
-      <div className="stats-banner-wrapper py-6">
+      <div className="stats-banner-wrapper py-6 relative z-10">
         <StatsBanner />
       </div>
 
       {/* 6. Footer */}
-      <Footer />
+      <div className="relative z-10">
+        <Footer />
+      </div>
 
       {/* Auth Modal with Single Working Google Auth */}
       <AuthModal

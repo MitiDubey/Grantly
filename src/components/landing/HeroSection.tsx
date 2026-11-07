@@ -1,6 +1,6 @@
 import React from 'react';
 import grantlyLogo from '../../assets/grantly-logo.png';
-import { ChevronRight } from 'lucide-react';
+import { ChevronRight, Sparkles } from 'lucide-react';
 
 interface HeroSectionProps {
   onLogoClick: () => void;
@@ -16,16 +16,18 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
       
       {/* Surrounding Hero Content */}
       <div className="hero-text-content space-y-4">
-        {/* Hero Badge */}
-        <div className="hero-badge inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-blue-200 dark:border-blue-900/60 bg-blue-50 dark:bg-[#19263A]/80 text-[#3985FF] text-xs font-semibold uppercase tracking-wider mb-2 shadow-sm backdrop-blur-sm">
-          <span>★</span>
-          <span>Next-Gen Scholarship Intelligence</span>
+        {/* Hero Badge with Logo Gold Star Accent */}
+        <div className="hero-badge inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-amber-300/40 dark:border-amber-400/30 bg-amber-50/80 dark:bg-[#19263A]/90 text-[#101B2D] dark:text-white text-xs font-semibold uppercase tracking-wider mb-2 shadow-sm backdrop-blur-sm">
+          <Sparkles className="w-3.5 h-3.5 text-[#F6A81C] animate-pulse" />
+          <span className="text-[#3985FF] font-bold">GRANTLY</span>
+          <span className="text-slate-400">•</span>
+          <span className="text-slate-700 dark:text-slate-200">Next-Gen Scholarship Intelligence</span>
         </div>
 
-        {/* Headline */}
+        {/* Headline with Electric Blue & Subtle Golden Gradient Highlights */}
         <h1 className="text-4xl sm:text-6xl md:text-7xl font-extrabold font-display tracking-tight text-[#101B2D] dark:text-white leading-[1.08] max-w-4xl mx-auto">
           <span className="hero-title-line block">Your Future,</span>
-          <span className="hero-title-line block text-transparent bg-clip-text bg-gradient-to-r from-[#3985FF] via-blue-400 to-[#101B2D] dark:to-blue-200">
+          <span className="hero-title-line block text-transparent bg-clip-text bg-gradient-to-r from-[#3985FF] via-blue-400 to-[#F6A81C] dark:to-[#FFD54F]">
             Funded.
           </span>
         </h1>
@@ -36,10 +38,12 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
         </p>
       </div>
 
-      {/* SECTION 1 LOGO PORTAL: FULL CIRCLE LOGO COVERAGE & NO "ENTER PORTAL" BUTTON */}
+      {/* SECTION 1 LOGO PORTAL: FULL CIRCLE LOGO COVERAGE WITH DUAL BLUE & GOLD RAYS */}
       <div className="my-8 flex flex-col items-center justify-center">
         <p className="text-xs font-semibold uppercase tracking-widest text-[#3985FF] mb-4 flex items-center gap-1.5 select-none animate-pulse">
-          <span>CLICK THE LOGO PORTAL TO ENTER →</span>
+          <span className="text-[#F6A81C]">★</span>
+          <span>CLICK THE LOGO PORTAL TO ENTER</span>
+          <span className="text-[#F6A81C]">★</span>
         </p>
 
         <div 
@@ -49,13 +53,13 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
           title="Click to enter GRANTLY"
         >
           {/* Subtle spinning dashed orbital accent */}
-          <div className="absolute inset-2 rounded-full border border-dashed border-[#3985FF]/50 pointer-events-none" />
+          <div className="absolute inset-2 rounded-full border border-dashed border-[#F6A81C]/50 pointer-events-none animate-[spin_25s_linear_infinite]" />
           
-          {/* Ambient Glow */}
-          <div className="absolute -inset-4 rounded-full bg-gradient-to-tr from-[#3985FF]/30 via-blue-400/20 to-transparent blur-xl pointer-events-none" />
+          {/* Dual Glow: Electric Blue + Logo Star Gold */}
+          <div className="absolute -inset-4 rounded-full bg-gradient-to-tr from-[#3985FF]/30 via-[#F6A81C]/25 to-transparent blur-xl pointer-events-none" />
 
           {/* Actual Circular GRANTLY Official Logo Covering the Full Circle */}
-          <div className="w-full h-full rounded-full overflow-hidden bg-white flex items-center justify-center p-3 z-10">
+          <div className="w-full h-full rounded-full overflow-hidden bg-white flex items-center justify-center p-3 z-10 shadow-inner">
             <img
               src={grantlyLogo}
               alt="GRANTLY Official Portal Emblem"
@@ -63,8 +67,8 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
             />
           </div>
 
-          {/* Subtle Hover Ring Glow */}
-          <div className="absolute inset-0 rounded-full ring-4 ring-[#3985FF]/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none z-20" />
+          {/* Golden / Blue Hover Ring Glow */}
+          <div className="absolute inset-0 rounded-full ring-4 ring-[#F6A81C]/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none z-20" />
         </div>
       </div>
 
@@ -72,7 +76,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
       <div className="hero-ctas flex flex-col sm:flex-row items-center justify-center gap-4 max-w-md mx-auto pt-2">
         <button
           onClick={() => onOpenAuth('signup')}
-          className="w-full sm:w-auto px-8 py-3.5 rounded-xl bg-[#3985FF] hover:bg-[#2b74ed] active:scale-95 text-white font-semibold text-sm shadow-xl shadow-blue-500/25 flex items-center justify-center gap-2 transition-all cursor-pointer"
+          className="w-full sm:w-auto px-8 py-3.5 rounded-xl bg-gradient-to-r from-[#3985FF] to-[#2575f0] hover:to-[#1e6ae4] active:scale-95 text-white font-semibold text-sm shadow-xl shadow-blue-500/25 flex items-center justify-center gap-2 transition-all cursor-pointer"
         >
           <span>Get Started</span>
           <ChevronRight className="w-4 h-4" />
