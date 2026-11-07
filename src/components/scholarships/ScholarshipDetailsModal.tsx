@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { 
   X, 
   Award, 
@@ -44,6 +45,24 @@ export const ScholarshipDetailsModal: React.FC<ScholarshipDetailsModalProps> = (
   const [selectedStatus, setSelectedStatus] = useState<ApplicationStatus>(currentStatus || 'Applied');
   const [appliedFeedback, setAppliedFeedback] = useState(false);
 
+  // Lock background body scroll & support Escape key
+  useEffect(() => {
+    const originalOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        onClose();
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => {
+      document.body.style.overflow = originalOverflow;
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [onClose]);
+
   // Deadline calculation
   const deadlineDate = new Date(scholarship.deadline);
   const now = new Date('2026-11-07');
@@ -59,20 +78,30 @@ export const ScholarshipDetailsModal: React.FC<ScholarshipDetailsModalProps> = (
     }, 1200);
   };
 
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 overflow-y-auto">
-      {/* Backdrop */}
+  const drawerContent = (
+    <div className="fixed inset-0" style={{ zIndex: 1000 }}>
+      {/* 1. Backdrop (z-index: 1000) */}
       <div 
         onClick={onClose}
-        className="fixed inset-0 bg-[#0B1423]/75 backdrop-blur-sm transition-opacity"
+        className="fixed inset-0 bg-[#0B1423]/70 backdrop-blur-sm transition-opacity duration-300 animate-in fade-in"
+        aria-hidden="true"
       />
 
-      {/* Modal Dialog Card */}
-      <div className="relative w-full max-w-2xl bg-white dark:bg-[#19263A] rounded-[24px] shadow-2xl border border-[#E4E9F1] dark:border-[#304058] max-h-[92vh] overflow-y-auto z-10 flex flex-col custom-scrollbar">
+      {/* 2. Right-side Drawer (z-index: 1001) */}
+      <aside 
+        className="fixed top-0 right-0 h-screen w-full sm:w-[680px] max-w-full bg-white dark:bg-[#19263A] shadow-2xl border-l border-[#E4E9F1] dark:border-[#304058] flex flex-col z-[1001] transition-transform duration-300 ease-out animate-in slide-in-from-right sm:rounded-l-[24px] overflow-hidden"
+        style={{
+          height: '100dvh',
+          maxHeight: '100dvh',
+        }}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="drawer-scholarship-title"
+      >
         
-        {/* Header */}
-        <div className="sticky top-0 bg-white/95 dark:bg-[#19263A]/95 backdrop-blur-md p-5 sm:p-6 border-b border-[#E4E9F1] dark:border-[#304058] flex items-start justify-between gap-4 z-20">
-          <div>
+        {/* A. FIXED HEADER */}
+        <div className="flex-shrink-0 p-5 sm:p-6 bg-white dark:bg-[#19263A] border-b border-[#E4E9F1] dark:border-[#304058] flex items-start justify-between gap-4 z-20">
+          <div className="min-w-0 pr-2">
             <div className="flex flex-wrap items-center gap-2 mb-2">
               <span className="text-xs font-bold px-2.5 py-0.5 rounded-full bg-[#EAF2FF] dark:bg-[#223149] text-[#246BDB] dark:text-[#3985FF] border border-[#D5E5FF] dark:border-transparent">
                 {scholarship.category}
@@ -88,34 +117,40 @@ export const ScholarshipDetailsModal: React.FC<ScholarshipDetailsModalProps> = (
               </span>
             </div>
             
-            <h2 className="text-xl sm:text-2xl font-bold font-display text-[#101B2D] dark:text-white leading-snug">
+            <h2 
+              id="drawer-scholarship-title"
+              className="text-lg sm:text-2xl font-bold font-display text-[#101B2D] dark:text-white leading-snug break-words"
+            >
               {scholarship.name}
             </h2>
-            <p className="text-xs text-[#667085] dark:text-[#A8B4C7] mt-1 flex items-center gap-1.5 font-medium">
-              <Building2 className="w-3.5 h-3.5 text-[#3985FF]" />
+            <p className="text-xs text-[#667085] dark:text-[#A8B4C7] mt-1 flex items-center gap-1.5 font-medium truncate">
+              <Building2 className="w-3.5 h-3.5 text-[#3985FF] shrink-0" />
               <span>{scholarship.provider}</span>
             </p>
           </div>
 
           <button
             onClick={onClose}
-            className="p-2 rounded-xl text-slate-400 hover:text-[#172033] dark:hover:text-white hover:bg-[#F5F7FB] dark:hover:bg-[#223149] transition-colors cursor-pointer"
-            aria-label="Close modal"
+            className="flex-shrink-0 p-2 rounded-xl text-slate-400 hover:text-[#172033] dark:hover:text-white hover:bg-[#F5F7FB] dark:hover:bg-[#223149] transition-colors cursor-pointer border border-transparent hover:border-slate-200 dark:hover:border-[#304058]"
+            aria-label="Close details drawer"
           >
             <X className="w-5 h-5" />
           </button>
         </div>
 
-        {/* Content Body */}
-        <div className="p-5 sm:p-6 space-y-6">
+        {/* B. INDEPENDENTLY SCROLLABLE CONTENT BODY */}
+        <div 
+          className="flex-1 min-h-0 overflow-y-auto p-5 sm:p-6 space-y-6 custom-scrollbar"
+          style={{ overscrollBehavior: 'contain' }}
+        >
           
           {/* Grant Value Banner */}
-          <div className="p-5 sm:p-6 rounded-[20px] bg-gradient-to-r from-[#EAF2FF] via-blue-50 to-white dark:from-[#223149] dark:to-[#19263A] border border-[#D5E5FF] dark:border-[#304058] flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div className="p-5 sm:p-6 rounded-[20px] bg-gradient-to-r from-[#EAF2FF] via-blue-50/70 to-white dark:from-[#223149] dark:to-[#19263A] border border-[#D5E5FF] dark:border-[#304058] flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
               <p className="text-xs uppercase font-bold tracking-wider text-[#246BDB] dark:text-[#3985FF]">
                 Total Grant Value
               </p>
-              <p className="text-3xl sm:text-4xl font-extrabold font-display text-[#101B2D] dark:text-white mt-0.5 tracking-tight">
+              <p className="text-2xl sm:text-4xl font-extrabold font-display text-[#101B2D] dark:text-white mt-0.5 tracking-tight">
                 {scholarship.currency}{scholarship.amount.toLocaleString('en-IN')}
               </p>
               <p className="text-xs text-[#667085] dark:text-[#A8B4C7] font-medium mt-0.5">
@@ -123,9 +158,9 @@ export const ScholarshipDetailsModal: React.FC<ScholarshipDetailsModalProps> = (
               </p>
             </div>
             {isUrgent && (
-              <div className="px-3.5 py-2 rounded-xl bg-rose-50 dark:bg-rose-950/40 border border-rose-200 text-rose-600 dark:text-rose-400 text-xs font-bold self-start sm:self-auto flex items-center gap-1.5">
+              <div className="px-3.5 py-2 rounded-xl bg-rose-50 dark:bg-rose-950/40 border border-rose-200 text-rose-600 dark:text-rose-400 text-xs font-bold self-start sm:self-auto flex items-center gap-1.5 shrink-0">
                 <Clock className="w-4 h-4" />
-                <span>{diffDays} days remaining to submit</span>
+                <span>{diffDays} days left to apply</span>
               </div>
             )}
           </div>
@@ -133,7 +168,7 @@ export const ScholarshipDetailsModal: React.FC<ScholarshipDetailsModalProps> = (
           {/* Description */}
           <div>
             <h4 className="text-xs font-bold uppercase tracking-wider text-[#98A2B3] dark:text-slate-400 mb-2 font-display">
-              Grant Overview & Mission
+              Grant Overview & Purpose
             </h4>
             <p className="text-sm text-[#172033] dark:text-[#F4F7FC] leading-relaxed font-normal">
               {scholarship.description}
@@ -142,14 +177,14 @@ export const ScholarshipDetailsModal: React.FC<ScholarshipDetailsModalProps> = (
 
           {/* Transparent Match Score & Rule Breakdown */}
           <div className="p-5 rounded-[20px] bg-[#F5F7FB] dark:bg-[#101B2D] border border-[#E4E9F1] dark:border-[#304058]">
-            <div className="flex items-center justify-between mb-3">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-3">
               <div className="flex items-center gap-2">
-                <ShieldCheck className="w-5 h-5 text-[#3985FF]" />
+                <ShieldCheck className="w-5 h-5 text-[#3985FF] shrink-0" />
                 <h4 className="text-sm font-bold text-[#101B2D] dark:text-white font-display">
-                  Profile Match Score Explanation
+                  Profile Compatibility Score
                 </h4>
               </div>
-              <span className={`text-sm font-extrabold px-3 py-1 rounded-full ${
+              <span className={`text-xs font-extrabold px-3 py-1 rounded-full self-start sm:self-auto ${
                 (eligibility?.score ?? 85) >= 85 ? 'bg-emerald-50 text-[#168253] border border-emerald-200' :
                 'bg-blue-50 text-[#246BDB] border border-blue-200'
               }`}>
@@ -158,7 +193,7 @@ export const ScholarshipDetailsModal: React.FC<ScholarshipDetailsModalProps> = (
             </div>
 
             <p className="text-xs text-[#667085] dark:text-[#A8B4C7] mb-4 leading-relaxed">
-              Calculated dynamically against your student profile parameters (academic marks, income bracket, degree specialization, and domicile). Match scores represent indicative criteria compatibility, not guaranteed scholarship disbursement.
+              Calculated dynamically against your verified student profile parameters. Match scores reflect criteria alignment and do not guarantee an award.
             </p>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
@@ -168,9 +203,9 @@ export const ScholarshipDetailsModal: React.FC<ScholarshipDetailsModalProps> = (
                 ) : (
                   <XCircle className="w-4 h-4 text-rose-500 shrink-0 mt-0.5" />
                 )}
-                <div>
+                <div className="min-w-0">
                   <p className="font-bold text-[#172033] dark:text-white">Academic Criteria</p>
-                  <p className="text-[#667085] dark:text-[#A8B4C7] mt-0.5">{eligibility?.breakdown.academic.text}</p>
+                  <p className="text-[#667085] dark:text-[#A8B4C7] mt-0.5 break-words">{eligibility?.breakdown.academic.text}</p>
                 </div>
               </div>
 
@@ -180,9 +215,9 @@ export const ScholarshipDetailsModal: React.FC<ScholarshipDetailsModalProps> = (
                 ) : (
                   <XCircle className="w-4 h-4 text-rose-500 shrink-0 mt-0.5" />
                 )}
-                <div>
-                  <p className="font-bold text-[#172033] dark:text-white">Income Limit</p>
-                  <p className="text-[#667085] dark:text-[#A8B4C7] mt-0.5">{eligibility?.breakdown.income.text}</p>
+                <div className="min-w-0">
+                  <p className="font-bold text-[#172033] dark:text-white">Family Income Limit</p>
+                  <p className="text-[#667085] dark:text-[#A8B4C7] mt-0.5 break-words">{eligibility?.breakdown.income.text}</p>
                 </div>
               </div>
 
@@ -192,9 +227,9 @@ export const ScholarshipDetailsModal: React.FC<ScholarshipDetailsModalProps> = (
                 ) : (
                   <XCircle className="w-4 h-4 text-rose-500 shrink-0 mt-0.5" />
                 )}
-                <div>
-                  <p className="font-bold text-[#172033] dark:text-white">Eligible Courses</p>
-                  <p className="text-[#667085] dark:text-[#A8B4C7] mt-0.5">{eligibility?.breakdown.course.text}</p>
+                <div className="min-w-0">
+                  <p className="font-bold text-[#172033] dark:text-white">Prioritized Programs</p>
+                  <p className="text-[#667085] dark:text-[#A8B4C7] mt-0.5 break-words">{eligibility?.breakdown.course.text}</p>
                 </div>
               </div>
 
@@ -204,16 +239,16 @@ export const ScholarshipDetailsModal: React.FC<ScholarshipDetailsModalProps> = (
                 ) : (
                   <XCircle className="w-4 h-4 text-rose-500 shrink-0 mt-0.5" />
                 )}
-                <div>
-                  <p className="font-bold text-[#172033] dark:text-white">Categories & Regions</p>
-                  <p className="text-[#667085] dark:text-[#A8B4C7] mt-0.5">{eligibility?.breakdown.categoryOrLocation.text}</p>
+                <div className="min-w-0">
+                  <p className="font-bold text-[#172033] dark:text-white">Category & Domicile</p>
+                  <p className="text-[#667085] dark:text-[#A8B4C7] mt-0.5 break-words">{eligibility?.breakdown.categoryOrLocation.text}</p>
                 </div>
               </div>
             </div>
 
             {eligibility && eligibility.disqualifications.length > 0 && (
               <div className="mt-3.5 p-3.5 rounded-xl bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800 text-[#A76B13] dark:text-amber-400 text-xs">
-                <p className="font-bold mb-1">Criteria Notes for Consideration:</p>
+                <p className="font-bold mb-1">Eligibility Notes:</p>
                 <ul className="list-disc list-inside space-y-0.5">
                   {eligibility.disqualifications.map((d, i) => (
                     <li key={i}>{d}</li>
@@ -235,7 +270,7 @@ export const ScholarshipDetailsModal: React.FC<ScholarshipDetailsModalProps> = (
                   className="flex items-center gap-2.5 p-3 rounded-xl bg-[#F5F7FB] dark:bg-[#223149] border border-[#E4E9F1] dark:border-[#304058] text-xs font-semibold text-[#172033] dark:text-slate-200"
                 >
                   <FileText className="w-4 h-4 text-[#3985FF] flex-shrink-0" />
-                  <span>{doc}</span>
+                  <span className="truncate">{doc}</span>
                 </div>
               ))}
             </div>
@@ -273,9 +308,10 @@ export const ScholarshipDetailsModal: React.FC<ScholarshipDetailsModalProps> = (
 
         </div>
 
-        {/* Modal Footer */}
-        <div className="sticky bottom-0 p-5 sm:p-6 border-t border-[#E4E9F1] dark:border-[#304058] flex items-center justify-between gap-3 bg-white/95 dark:bg-[#19263A]/95 backdrop-blur-md">
+        {/* C. FIXED BOTTOM ACTION BAR */}
+        <div className="flex-shrink-0 p-4 sm:p-5 border-t border-[#E4E9F1] dark:border-[#304058] flex items-center justify-between gap-3 bg-white dark:bg-[#19263A] shadow-md z-20">
           <button
+            type="button"
             onClick={() => onToggleSave(scholarship.id)}
             className={`flex items-center gap-2 px-4 py-2.5 rounded-xl border text-xs font-bold transition-all cursor-pointer ${
               isSaved
@@ -288,9 +324,10 @@ export const ScholarshipDetailsModal: React.FC<ScholarshipDetailsModalProps> = (
           </button>
 
           <button
+            type="button"
             onClick={handleApplyNow}
             disabled={appliedFeedback}
-            className="flex items-center gap-2 px-6 py-2.5 rounded-xl bg-[#3985FF] hover:bg-[#2575f0] active:scale-95 text-white text-xs font-bold shadow-md shadow-blue-500/25 transition-all cursor-pointer"
+            className="flex items-center gap-2 px-5 sm:px-6 py-2.5 rounded-xl bg-[#3985FF] hover:bg-[#2575f0] active:scale-95 text-white text-xs font-bold shadow-md shadow-blue-500/25 transition-all cursor-pointer"
           >
             {appliedFeedback ? (
               <span>✓ Status Synced to Tracker!</span>
@@ -303,8 +340,15 @@ export const ScholarshipDetailsModal: React.FC<ScholarshipDetailsModalProps> = (
           </button>
         </div>
 
-      </div>
+      </aside>
     </div>
   );
+
+  // Render through a React Portal to root document body to escape any parent overflow / stacking context
+  if (typeof document !== 'undefined') {
+    return createPortal(drawerContent, document.body);
+  }
+
+  return drawerContent;
 };
 
