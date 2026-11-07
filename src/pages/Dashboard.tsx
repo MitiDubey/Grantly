@@ -55,38 +55,46 @@ export const Dashboard: React.FC<DashboardProps> = ({ onNavigateTab }) => {
   return (
     <div className="space-y-8">
       
-      {/* 1. Welcome Panel adhering to Brand Style Guide - Adaptive for Light and Dark themes */}
-      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-[#172b4d] via-[#101B2D] to-[#1e3a63] dark:from-[#101B2D] dark:via-[#19263A] dark:to-[#101B2D] light:bg-gradient-to-r light:from-[#1a365d] p-6 sm:p-8 text-white border border-blue-900/30 dark:border-[#304058] shadow-xl shadow-blue-950/10">
+      {/* 1. Welcome Panel adhering to Brand Style Guide - Premium Light & Dark Theme implementation */}
+      <div className="relative overflow-hidden rounded-[24px] bg-gradient-to-r from-white via-white to-[#EAF2FF] dark:from-[#101B2D] dark:via-[#19263A] dark:to-[#101B2D] p-6 sm:p-8 text-[#172033] dark:text-white border border-[#E4E9F1] dark:border-[#304058] shadow-[0_8px_30px_rgba(16,27,45,0.06)] dark:shadow-xl transition-all duration-300">
         
         {/* Subtle decorative mesh gradient accents */}
-        <div className="absolute top-0 right-0 -mr-16 -mt-16 w-80 h-80 rounded-full bg-[#3985FF]/20 blur-3xl pointer-events-none" />
-        <div className="absolute bottom-0 left-1/3 -mb-16 w-64 h-64 rounded-full bg-[#F6A81C]/15 blur-3xl pointer-events-none" />
+        <div className="absolute top-0 right-0 -mr-16 -mt-16 w-80 h-80 rounded-full bg-[#3985FF]/10 dark:bg-[#3985FF]/20 blur-3xl pointer-events-none" />
+        <div className="absolute bottom-0 left-1/3 -mb-16 w-64 h-64 rounded-full bg-[#F4B740]/10 dark:bg-[#F6A81C]/15 blur-3xl pointer-events-none" />
 
         <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
           <div className="space-y-2.5 max-w-2xl">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/20 text-[#60a5fa] border border-blue-400/30 text-xs font-semibold uppercase tracking-wider backdrop-blur-sm">
-              <Sparkles className="w-3.5 h-3.5 text-[#F6A81C]" />
+            {/* Badge */}
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#EAF2FF] dark:bg-blue-500/20 text-[#246BDB] dark:text-[#60a5fa] border border-[#D5E5FF] dark:border-blue-400/30 text-xs font-semibold uppercase tracking-wider backdrop-blur-sm shadow-xs">
+              <Sparkles className="w-3.5 h-3.5 text-[#F4B740]" />
               <span>Fall 2026 Academic Grant Cycle</span>
             </div>
-            <h2 className="text-2xl sm:text-4xl font-extrabold font-display tracking-tight text-white drop-shadow-sm">
+            
+            {/* Heading */}
+            <h2 className="text-2xl sm:text-4xl font-extrabold font-display tracking-tight text-[#101B2D] dark:text-white">
               Welcome back, {user?.name.split(' ')[0] || 'Scholar'}! 👋
             </h2>
-            <p className="text-sm text-blue-100/90 dark:text-slate-300 font-normal leading-relaxed">
-              You are matched with <span className="text-[#60a5fa] dark:text-[#3985FF] font-bold">{eligibleScholarships.length} high-value opportunities</span> based on your {user?.course} profile. Keep track of approaching deadlines.
+
+            {/* Supporting description */}
+            <p className="text-sm text-[#667085] dark:text-slate-300 font-normal leading-relaxed">
+              You are matched with <span className="text-[#3985FF] font-bold">{eligibleScholarships.length} high-value opportunities</span> based on your {user?.course} profile. Keep track of approaching deadlines.
             </p>
           </div>
 
           <div className="flex flex-wrap items-center gap-3 shrink-0">
+            {/* Primary Action Button */}
             <button
               onClick={() => onNavigateTab('recommendations')}
-              className="px-5 py-3 rounded-xl bg-[#3985FF] hover:bg-[#2575f0] active:scale-95 text-white font-bold text-xs shadow-lg shadow-blue-500/30 flex items-center gap-2 transition-all cursor-pointer"
+              className="px-5 py-3 rounded-[12px] bg-[#3985FF] hover:bg-[#2575f0] active:scale-95 text-white font-bold text-xs shadow-md shadow-blue-500/25 flex items-center gap-2 transition-all cursor-pointer"
             >
-              <Sparkles className="w-4 h-4 text-[#F6A81C]" />
+              <Sparkles className="w-4 h-4 text-[#F4B740]" />
               <span>View Match Scores</span>
             </button>
+            
+            {/* Secondary Action Button */}
             <button
               onClick={() => onNavigateTab('profile')}
-              className="px-4 py-3 rounded-xl bg-white/10 hover:bg-white/20 active:scale-95 text-white font-bold text-xs border border-white/20 transition-all cursor-pointer backdrop-blur-sm"
+              className="px-4 py-3 rounded-[12px] bg-white dark:bg-white/10 hover:bg-[#F5F7FB] dark:hover:bg-white/20 active:scale-95 text-[#246BDB] dark:text-white font-bold text-xs border border-[#D6E4F5] dark:border-white/20 transition-all cursor-pointer shadow-xs backdrop-blur-sm"
             >
               Update Criteria
             </button>
@@ -94,77 +102,77 @@ export const Dashboard: React.FC<DashboardProps> = ({ onNavigateTab }) => {
         </div>
       </div>
 
-      {/* 2. Key Metrics Row */}
+      {/* 2. Key Metrics Row - 4 Distinct Cards with Hover Lift */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         
         {/* Metric 1 */}
-        <div className="p-5 rounded-2xl bg-white dark:bg-[#19263A] border border-slate-200 dark:border-[#304058] shadow-[0_2px_12px_rgba(16,27,45,0.04)]">
+        <div className="p-5 rounded-[18px] bg-white dark:bg-[#19263A] border border-[#E4E9F1] dark:border-[#304058] shadow-[0_4px_16px_rgba(16,27,45,0.04)] hover:-translate-y-1 hover:shadow-md transition-all duration-250 cursor-default">
           <div className="flex items-center justify-between">
             <span className="text-xs font-bold text-[#667085] dark:text-[#A8B4C7] uppercase tracking-wider">
               Eligible Grants
             </span>
-            <div className="p-2 rounded-xl bg-blue-50 dark:bg-[#223149] text-[#3985FF]">
+            <div className="p-2.5 rounded-xl bg-[#EAF2FF] dark:bg-[#223149] text-[#3985FF]">
               <Sparkles className="w-4 h-4" />
             </div>
           </div>
-          <p className="text-3xl font-extrabold font-display text-[#101B2D] dark:text-white mt-3">
+          <p className="text-3xl font-extrabold font-display text-[#172033] dark:text-white mt-3">
             {eligibleScholarships.length}
           </p>
-          <p className="text-xs text-emerald-600 dark:text-emerald-400 font-medium mt-1">
+          <p className="text-xs text-[#168253] dark:text-emerald-400 font-medium mt-1">
             100% profile criteria satisfied
           </p>
         </div>
 
         {/* Metric 2 */}
-        <div className="p-5 rounded-2xl bg-white dark:bg-[#19263A] border border-slate-200 dark:border-[#304058] shadow-[0_2px_12px_rgba(16,27,45,0.04)]">
+        <div className="p-5 rounded-[18px] bg-white dark:bg-[#19263A] border border-[#E4E9F1] dark:border-[#304058] shadow-[0_4px_16px_rgba(16,27,45,0.04)] hover:-translate-y-1 hover:shadow-md transition-all duration-250 cursor-default">
           <div className="flex items-center justify-between">
             <span className="text-xs font-bold text-[#667085] dark:text-[#A8B4C7] uppercase tracking-wider">
               Potential Aid Pool
             </span>
-            <div className="p-2 rounded-xl bg-emerald-50 dark:bg-[#223149] text-emerald-500">
+            <div className="p-2.5 rounded-xl bg-emerald-50 dark:bg-[#223149] text-[#168253] dark:text-emerald-400">
               <TrendingUp className="w-4 h-4" />
             </div>
           </div>
-          <p className="text-3xl font-extrabold font-display text-[#101B2D] dark:text-white mt-3">
+          <p className="text-3xl font-extrabold font-display text-[#172033] dark:text-white mt-3">
             ₹{(totalPotentialFunding / 100000).toFixed(1)}L
           </p>
-          <p className="text-xs text-slate-400 font-medium mt-1">
+          <p className="text-xs text-[#667085] dark:text-slate-400 font-medium mt-1">
             Across open cycles
           </p>
         </div>
 
         {/* Metric 3 */}
-        <div className="p-5 rounded-2xl bg-white dark:bg-[#19263A] border border-slate-200 dark:border-[#304058] shadow-[0_2px_12px_rgba(16,27,45,0.04)]">
+        <div className="p-5 rounded-[18px] bg-white dark:bg-[#19263A] border border-[#E4E9F1] dark:border-[#304058] shadow-[0_4px_16px_rgba(16,27,45,0.04)] hover:-translate-y-1 hover:shadow-md transition-all duration-250 cursor-default">
           <div className="flex items-center justify-between">
             <span className="text-xs font-bold text-[#667085] dark:text-[#A8B4C7] uppercase tracking-wider">
               In-Progress
             </span>
-            <div className="p-2 rounded-xl bg-amber-50 dark:bg-[#223149] text-amber-500">
+            <div className="p-2.5 rounded-xl bg-amber-50 dark:bg-[#223149] text-[#A76B13] dark:text-amber-400">
               <Clock className="w-4 h-4" />
             </div>
           </div>
-          <p className="text-3xl font-extrabold font-display text-[#101B2D] dark:text-white mt-3">
+          <p className="text-3xl font-extrabold font-display text-[#172033] dark:text-white mt-3">
             {appliedList.length}
           </p>
-          <p className="text-xs text-amber-600 dark:text-amber-400 font-medium mt-1">
+          <p className="text-xs text-[#A76B13] dark:text-amber-400 font-medium mt-1">
             Submitted / Reviewing
           </p>
         </div>
 
         {/* Metric 4 */}
-        <div className="p-5 rounded-2xl bg-white dark:bg-[#19263A] border border-slate-200 dark:border-[#304058] shadow-[0_2px_12px_rgba(16,27,45,0.04)]">
+        <div className="p-5 rounded-[18px] bg-white dark:bg-[#19263A] border border-[#E4E9F1] dark:border-[#304058] shadow-[0_4px_16px_rgba(16,27,45,0.04)] hover:-translate-y-1 hover:shadow-md transition-all duration-250 cursor-default">
           <div className="flex items-center justify-between">
             <span className="text-xs font-bold text-[#667085] dark:text-[#A8B4C7] uppercase tracking-wider">
               Saved Grants
             </span>
-            <div className="p-2 rounded-xl bg-purple-50 dark:bg-[#223149] text-purple-500">
+            <div className="p-2.5 rounded-xl bg-purple-50 dark:bg-[#223149] text-purple-600 dark:text-purple-400">
               <Bookmark className="w-4 h-4" />
             </div>
           </div>
-          <p className="text-3xl font-extrabold font-display text-[#101B2D] dark:text-white mt-3">
+          <p className="text-3xl font-extrabold font-display text-[#172033] dark:text-white mt-3">
             {savedScholarshipIds.length}
           </p>
-          <p className="text-xs text-slate-400 font-medium mt-1">
+          <p className="text-xs text-[#667085] dark:text-slate-400 font-medium mt-1">
             In student bookmarks
           </p>
         </div>

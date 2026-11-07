@@ -79,12 +79,12 @@ export const AppShell: React.FC<AppShellProps> = ({
 
       {/* DESKTOP SIDEBAR WITH SMOOTH COLLAPSE / EXPAND TOGGLE */}
       <aside 
-        className={`hidden lg:flex flex-col relative z-20 select-none bg-white/90 dark:bg-[#19263A]/90 backdrop-blur-md border-r border-slate-200/80 dark:border-[#304058]/80 transition-all duration-300 ease-in-out flex-shrink-0 ${
+        className={`hidden lg:flex flex-col relative z-20 select-none bg-white dark:bg-[#19263A] border-r border-[#E4E9F1] dark:border-[#304058] transition-all duration-300 ease-in-out flex-shrink-0 shadow-sm ${
           isSidebarCollapsed ? 'w-[72px]' : 'w-[250px]'
         }`}
       >
         {/* Brand Header */}
-        <div className="p-4 flex items-center justify-between border-b border-slate-100 dark:border-[#223149] min-h-[68px]">
+        <div className="p-4 flex items-center justify-between border-b border-[#E4E9F1] dark:border-[#223149] min-h-[68px]">
           <div 
             onClick={onGoHome}
             className={`flex items-center gap-3 cursor-pointer group transition-all duration-200 ${
@@ -109,9 +109,9 @@ export const AppShell: React.FC<AppShellProps> = ({
         </div>
 
         {/* Navigation Items */}
-        <div className="flex-1 py-4 px-2 space-y-1 overflow-y-auto custom-scrollbar">
+        <div className="flex-1 py-4 px-2.5 space-y-1.5 overflow-y-auto custom-scrollbar">
           {!isSidebarCollapsed && (
-            <div className="px-3 pb-2 text-[10px] font-bold uppercase tracking-wider text-slate-400">
+            <div className="px-3 pb-2 text-[10px] font-bold uppercase tracking-wider text-[#98A2B3]">
               Platform Menu
             </div>
           )}
@@ -123,24 +123,24 @@ export const AppShell: React.FC<AppShellProps> = ({
                 key={item.id}
                 onClick={() => onSelectTab(item.id)}
                 title={isSidebarCollapsed ? item.label : undefined}
-                className={`w-full flex items-center rounded-xl text-sm font-semibold transition-all duration-150 cursor-pointer ${
+                className={`w-full flex items-center rounded-[12px] text-sm font-semibold transition-all duration-150 cursor-pointer ${
                   isSidebarCollapsed 
                     ? 'justify-center px-2 py-3' 
                     : 'justify-between px-3.5 py-2.5'
                 } ${
                   active
-                    ? 'bg-[#EAF2FF] dark:bg-[#223149] text-[#246BDB] dark:text-[#3985FF] shadow-sm font-bold'
-                    : 'text-[#667085] dark:text-[#A8B4C7] hover:bg-slate-100/80 dark:hover:bg-[#223149]/60 hover:text-[#172033] dark:hover:text-white'
+                    ? 'bg-[#EAF2FF] dark:bg-[#223149] text-[#246BDB] dark:text-[#3985FF] shadow-xs font-bold'
+                    : 'text-[#667085] dark:text-[#A8B4C7] hover:bg-[#F5F7FB] dark:hover:bg-[#223149]/60 hover:text-[#172033] dark:hover:text-white'
                 }`}
               >
                 <div className={`flex items-center gap-3 ${isSidebarCollapsed ? 'justify-center' : ''}`}>
-                  <Icon className={`w-5 h-5 flex-shrink-0 ${active ? 'text-[#3985FF]' : 'text-slate-400'}`} />
+                  <Icon className={`w-5 h-5 flex-shrink-0 ${active ? 'text-[#3985FF]' : 'text-[#98A2B3] dark:text-slate-400'}`} />
                   {!isSidebarCollapsed && <span className="truncate">{item.label}</span>}
                 </div>
                 {!isSidebarCollapsed && (
                   <div className="flex items-center gap-1.5 flex-shrink-0">
                     {item.count !== undefined && item.count > 0 && (
-                      <span className="text-xs px-2 py-0.5 rounded-full bg-slate-200 dark:bg-[#304058] text-slate-700 dark:text-slate-200 font-bold">
+                      <span className="text-xs px-2 py-0.5 rounded-full bg-slate-100 dark:bg-[#304058] text-[#667085] dark:text-slate-200 font-bold border border-slate-200/50 dark:border-transparent">
                         {item.count}
                       </span>
                     )}
@@ -157,7 +157,7 @@ export const AppShell: React.FC<AppShellProps> = ({
         </div>
 
         {/* User Card & Sidebar Controls at Bottom */}
-        <div className="p-2 border-t border-slate-100 dark:border-[#223149] bg-slate-50/70 dark:bg-[#101B2D]/40">
+        <div className="p-2.5 border-t border-[#E4E9F1] dark:border-[#223149] bg-[#F5F7FB]/70 dark:bg-[#101B2D]/40">
           <div 
             onClick={() => onSelectTab('profile')}
             className={`flex items-center gap-2.5 p-2 rounded-xl hover:bg-white dark:hover:bg-[#223149] transition-colors cursor-pointer ${
@@ -177,7 +177,7 @@ export const AppShell: React.FC<AppShellProps> = ({
                 <p className="text-xs font-bold text-[#101B2D] dark:text-white truncate">
                   {user?.name || 'Student Scholar'}
                 </p>
-                <p className="text-[10px] text-slate-400 truncate">
+                <p className="text-[10px] text-[#667085] dark:text-slate-400 truncate">
                   {user?.course || 'Undergraduate'}
                 </p>
               </div>
@@ -185,13 +185,13 @@ export const AppShell: React.FC<AppShellProps> = ({
           </div>
 
           {/* Quick Action Strip (Theme, Home, Logout) */}
-          <div className={`mt-2 pt-2 border-t border-slate-200/80 dark:border-[#304058]/80 flex items-center ${
+          <div className={`mt-2 pt-2 border-t border-[#E4E9F1] dark:border-[#304058]/80 flex items-center ${
             isSidebarCollapsed ? 'flex-col gap-1.5' : 'justify-between px-1'
           }`}>
             <button
               type="button"
               onClick={toggleTheme}
-              className="p-2 rounded-lg text-slate-600 dark:text-slate-300 hover:text-[#3985FF] hover:bg-slate-200 dark:hover:bg-[#223149] transition-colors cursor-pointer flex items-center gap-1.5"
+              className="p-2 rounded-lg text-[#667085] dark:text-slate-300 hover:text-[#3985FF] hover:bg-white dark:hover:bg-[#223149] transition-colors cursor-pointer flex items-center gap-1.5"
               title={isDark ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
             >
               {isDark ? <Sun className="w-4 h-4 text-amber-400" /> : <Moon className="w-4 h-4 text-[#101B2D]" />}
@@ -200,7 +200,7 @@ export const AppShell: React.FC<AppShellProps> = ({
             
             <button
               onClick={onGoHome}
-              className="p-2 rounded-lg text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white hover:bg-slate-200 dark:hover:bg-[#223149] transition-colors cursor-pointer"
+              className="p-2 rounded-lg text-[#667085] hover:text-[#172033] dark:text-slate-400 dark:hover:text-white hover:bg-white dark:hover:bg-[#223149] transition-colors cursor-pointer"
               title="Return to Landing Portal"
             >
               <Home className="w-4 h-4" />
@@ -221,12 +221,12 @@ export const AppShell: React.FC<AppShellProps> = ({
       <div className="flex-1 flex flex-col min-w-0 overflow-hidden relative z-10">
         
         {/* Top Header Bar with Sidebar Collapse Toggle & Prominent Theme Toggle */}
-        <header className="h-16 px-4 sm:px-6 bg-white/80 dark:bg-[#19263A]/80 backdrop-blur-md border-b border-slate-200/80 dark:border-[#304058]/80 flex items-center justify-between z-20">
+        <header className="h-16 px-4 sm:px-6 bg-white dark:bg-[#19263A] border-b border-[#E4E9F1] dark:border-[#304058] flex items-center justify-between z-20 shadow-xs">
           <div className="flex items-center gap-3">
             {/* Mobile menu trigger */}
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="lg:hidden p-2 rounded-xl border border-slate-200 dark:border-[#304058] bg-white/50 dark:bg-[#101B2D]/50 text-slate-700 dark:text-slate-200 hover:bg-slate-100 transition-colors cursor-pointer"
+              className="lg:hidden p-2 rounded-xl border border-[#E4E9F1] dark:border-[#304058] bg-white dark:bg-[#101B2D] text-[#172033] dark:text-slate-200 hover:bg-[#F5F7FB] transition-colors cursor-pointer"
               aria-label="Toggle Mobile Menu"
             >
               {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
@@ -235,7 +235,7 @@ export const AppShell: React.FC<AppShellProps> = ({
             {/* Desktop Sidebar Collapse Toggle Button */}
             <button
               onClick={toggleSidebar}
-              className="hidden lg:flex items-center justify-center p-2 rounded-xl border border-slate-200 dark:border-[#304058] bg-white/60 dark:bg-[#101B2D]/60 text-slate-600 dark:text-slate-300 hover:text-[#3985FF] hover:border-[#3985FF]/50 hover:bg-slate-100 dark:hover:bg-[#223149] transition-all cursor-pointer shadow-sm"
+              className="hidden lg:flex items-center justify-center p-2 rounded-xl border border-[#E4E9F1] dark:border-[#304058] bg-white dark:bg-[#101B2D] text-[#667085] dark:text-slate-300 hover:text-[#3985FF] hover:border-[#3985FF]/50 hover:bg-[#F5F7FB] dark:hover:bg-[#223149] transition-all cursor-pointer shadow-xs"
               title={isSidebarCollapsed ? 'Expand Sidebar' : 'Collapse Sidebar'}
               aria-label={isSidebarCollapsed ? 'Expand Sidebar' : 'Collapse Sidebar'}
             >
@@ -247,10 +247,10 @@ export const AppShell: React.FC<AppShellProps> = ({
             </button>
 
             <div className="flex items-center gap-2">
-              <h1 className="text-base sm:text-lg font-bold font-display text-[#101B2D] dark:text-white capitalize">
+              <h1 className="text-base sm:text-lg font-bold font-display text-[#172033] dark:text-white capitalize">
                 {currentTab.replace('-', ' ')}
               </h1>
-              <span className="hidden sm:inline text-[11px] px-2 py-0.5 rounded-full bg-emerald-50 dark:bg-emerald-950/40 text-emerald-600 dark:text-emerald-400 font-semibold border border-emerald-200 dark:border-emerald-800">
+              <span className="hidden sm:inline text-[11px] px-2.5 py-0.5 rounded-full bg-emerald-50 dark:bg-emerald-950/40 text-[#168253] dark:text-emerald-400 font-semibold border border-emerald-200 dark:border-emerald-800">
                 Active Cycle 2026
               </span>
             </div>
@@ -261,7 +261,7 @@ export const AppShell: React.FC<AppShellProps> = ({
             <button
               type="button"
               onClick={toggleTheme}
-              className="flex items-center gap-1.5 sm:gap-2 px-3 py-1.5 rounded-xl border border-slate-200 dark:border-[#304058] bg-white/80 dark:bg-[#223149] hover:bg-slate-100 dark:hover:bg-[#2c3d5a] text-slate-700 dark:text-slate-200 text-xs font-bold transition-all shadow-sm hover:shadow cursor-pointer select-none"
+              className="flex items-center gap-1.5 sm:gap-2 px-3 py-1.5 rounded-xl border border-[#E4E9F1] dark:border-[#304058] bg-white dark:bg-[#223149] hover:bg-[#F5F7FB] dark:hover:bg-[#2c3d5a] text-[#172033] dark:text-slate-200 text-xs font-bold transition-all shadow-xs hover:shadow-sm cursor-pointer select-none"
               title={isDark ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
             >
               {isDark ? (
@@ -279,7 +279,7 @@ export const AppShell: React.FC<AppShellProps> = ({
 
             <button
               onClick={onGoHome}
-              className="hidden md:flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-slate-200 dark:border-[#304058] bg-white/80 dark:bg-[#19263A] text-xs font-semibold text-slate-600 dark:text-slate-300 hover:border-[#3985FF] hover:text-[#3985FF] transition-colors cursor-pointer"
+              className="hidden md:flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-[#E4E9F1] dark:border-[#304058] bg-white dark:bg-[#19263A] text-xs font-semibold text-[#667085] dark:text-slate-300 hover:border-[#3985FF] hover:text-[#3985FF] transition-colors cursor-pointer"
             >
               <Home className="w-3.5 h-3.5" />
               <span>Back to Landing</span>
@@ -287,7 +287,7 @@ export const AppShell: React.FC<AppShellProps> = ({
 
             <button 
               onClick={() => onSelectTab('explorer')}
-              className="flex items-center gap-1.5 px-3 sm:px-4 py-2 rounded-xl bg-gradient-to-r from-[#3985FF] to-[#2575f0] hover:to-[#1e6ae4] text-white text-xs font-bold transition-all shadow-sm shadow-blue-500/20 active:scale-95 cursor-pointer"
+              className="flex items-center gap-1.5 px-3 sm:px-4 py-2 rounded-xl bg-[#3985FF] hover:bg-[#2575f0] text-white text-xs font-bold transition-all shadow-sm shadow-blue-500/20 active:scale-95 cursor-pointer"
             >
               <Search className="w-3.5 h-3.5" />
               <span className="hidden sm:inline">Find Scholarships</span>

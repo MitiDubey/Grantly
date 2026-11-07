@@ -82,6 +82,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   useEffect(() => {
     localStorage.setItem('grantly_theme', isDark ? 'dark' : 'light');
     const root = document.documentElement;
+    root.setAttribute('data-theme', isDark ? 'dark' : 'light');
     if (isDark) {
       root.classList.add('dark');
     } else {
